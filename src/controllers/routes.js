@@ -44,7 +44,7 @@ router.get("/callback", (req, res) => {
   let storedState = req.cookies ? req.cookies[stateKey] : null;
 
   if (state === null || state !== storedState) {
-    res.redirect("/error?error=state_mismatch");
+    res.redirect("/error");
   } else {
     res.clearCookie(stateKey);
     let authOptions = {
@@ -79,13 +79,15 @@ router.get("/callback", (req, res) => {
         });
 
         // we can also pass the token to the browser to make requests from there
-        res.redirect(
-          "/#" +
-            `?access_token=${access_token}` +
-            `&refresh_token=${refresh_token}`
-        );
+        // res.redirect(
+        //   "/#" +
+        //     `?access_token=${access_token}` +
+        //     `&refresh_token=${refresh_token}`
+        // );
+        console.log("rendering login");
+        res.render("login");
       } else {
-        res.redirect("/error?error=invalid_token");
+        res.render("error");
       }
     });
   }
