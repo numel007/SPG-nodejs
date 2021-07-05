@@ -1,30 +1,34 @@
-require('dotenv').config()
+require("dotenv").config();
 const port = process.env.PORT;
-const express = require('express');
-const handlebars = require('express-handlebars');
+const express = require("express");
+const handlebars = require("express-handlebars");
+const cookieParser = require("cookie-parser");
 
 // Initialize App
-const app = express()
+const app = express();
 
 // Set app to use handlebars engine
-app.set('view engine', 'handlebars');
+app.set("view engine", "handlebars");
 
 // Set handlebars config
-app.engine('handlebars', handlebars());
+app.engine("handlebars", handlebars());
 
 // Use Body Parser
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 
+// Use cookieParser
+app.use(cookieParser());
+
 // Set up express static folder
-app.use(express.static('public'))
+app.use(express.static("public"));
 
 // Routes
-app.use(require('./src/controllers/routes'))
+app.use(require("./src/controllers/routes"));
 
 // Start server
 app.listen(port, () => {
-    console.log(`SPG listening on ${port}`)
+  console.log(`SPG listening on ${port}`);
 });
 
-module.exports = app
+module.exports = app;
