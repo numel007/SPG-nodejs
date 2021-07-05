@@ -1,8 +1,7 @@
 require('dotenv').config()
-const port = 3000;
+const port = process.env.PORT;
 const express = require('express');
 const handlebars = require('express-handlebars');
-const axios = require('axios')
 
 // Initialize App
 const app = express()
@@ -20,7 +19,12 @@ app.use(express.json());
 // Set up express static folder
 app.use(express.static('public'))
 
+// Routes
+app.use(require('./src/controllers/routes'))
+
 // Start server
 app.listen(port, () => {
-    console.log(`Weather app listening on ${port}`)
+    console.log(`SPG listening on ${port}`)
 });
+
+module.exports = app
