@@ -25,10 +25,9 @@ const verifyToken = (req, res, next) => {
     };
 
     request.get(authOptions, (err, res, body) => {
-        if (body.error) {
+        if (body.error && res.statusCode === 401) {
             getAccessToken(refreshToken)
             .then( token => {
-                console.log('reached if')
                 req.accessToken = token
                 next()
             })
@@ -36,7 +35,6 @@ const verifyToken = (req, res, next) => {
                 throw err.message
             })
         } else {
-            console.log('reached else')
             req.accessToken = accessToken
             next()
         }
