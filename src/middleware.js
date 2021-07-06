@@ -31,28 +31,33 @@ const verifyToken = (req, res, next) => {
             .then( token => {
                 console.log(token)
             })
+            .catch( err => {
+                throw err.message
+            })
         }
     })
 }
 
 // Request access token using refresh token
 const getAccessToken = refreshToken => {
-    const authOptions = {
-        url: "https://accounts.spotify.com/api/token",
-        headers: { Authorization: 
-            "Basic " + new Buffer.from(client_id + ":" + client_secret, 'utf8').toString('base64')
-        },
-        form: { grant_type: "refresh_token", refresh_token: refreshToken },
-        json: true
-    }
-
-    request.post(authOptions, (err, res, body) => {
-        if (!err && res.statusCode === 200) {
-            refreshedAccessToken = body.access_token;
-            return refreshedAccessToken
-        } else {
-            return body
+    return new Promise( (resolve, reject) => {
+        const authOptions = {
+            url: "https://accounts.spotify.com/api/token",
+            headers: { Authorization: 
+                "Basic " + new Buffer.from(client_id + ":-" + client_secret, 'utf8').toString('base64')
+            },
+            form: { grant_type: "refresh_token", refresh_token: refreshToken },
+            json: true
         }
+    
+        request.post(authOptions, (err, res, body) => {
+            if (!err && res.statusCode === 200) {
+                refreshedAccessToken = body.access_token;
+                resolve(refreshedAccessToken)
+            } else {
+                reject (body);
+            }
+        })
     })
 }
 
