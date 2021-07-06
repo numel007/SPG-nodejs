@@ -16,8 +16,7 @@ const ranString = (length) => {
 
 // Token verification
 const verifyToken = (req, res, next) => {
-    // const token = req.cookies.accessToken
-    const accessToken = "BQDK99qlexjiWMzGYl1CTT1ipq5KD7tH_G6-jEsY5dxWlSpehCH_2x8bJIWso-2w4-KWMuAED2-QJBmZSb-1m-_fvBakO1z_RYs8TSynOnydEMZTJQqu5eL0fgHocGz_OOV_vORW0dYkAL3FAY_JFCr3bu9iFwHECiwyKavv5UYRflA8LS6YForGwfjDBQz2zXT5Hs37S-S3gdxy"
+    const accessToken = req.cookies.accessToken
     const refreshToken = req.cookies.refreshToken
     let authOptions = {
         url: "https://api.spotify.com/v1/me",
@@ -29,12 +28,17 @@ const verifyToken = (req, res, next) => {
         if (body.error) {
             getAccessToken(refreshToken)
             .then( token => {
+                console.log('reached if')
                 req.accessToken = token
                 next()
             })
             .catch( err => {
                 throw err.message
             })
+        } else {
+            console.log('reached else')
+            req.accessToken = accessToken
+            next()
         }
     })
 }
