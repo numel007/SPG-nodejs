@@ -29,7 +29,8 @@ const verifyToken = (req, res, next) => {
         if (body.error) {
             getAccessToken(refreshToken)
             .then( token => {
-                console.log(token)
+                req.accessToken = token
+                next()
             })
             .catch( err => {
                 throw err.message
@@ -44,7 +45,7 @@ const getAccessToken = refreshToken => {
         const authOptions = {
             url: "https://accounts.spotify.com/api/token",
             headers: { Authorization: 
-                "Basic " + new Buffer.from(client_id + ":-" + client_secret, 'utf8').toString('base64')
+                "Basic " + new Buffer.from(client_id + ":" + client_secret, 'utf8').toString('base64')
             },
             form: { grant_type: "refresh_token", refresh_token: refreshToken },
             json: true
@@ -55,7 +56,7 @@ const getAccessToken = refreshToken => {
                 refreshedAccessToken = body.access_token;
                 resolve(refreshedAccessToken)
             } else {
-                reject (body);
+                reject(body);
             }
         })
     })
