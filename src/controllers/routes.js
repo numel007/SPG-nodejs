@@ -62,10 +62,13 @@ router.get("/callback", (req, res) => {
       json: true,
     };
 
-    request.post(authOptions, function (error, response, body) {
+    request.post(authOptions, (error, response, body) => {
       if (!error && response.statusCode === 200) {
         let access_token = body.access_token,
           refresh_token = body.refresh_token;
+
+        res.cookie('accessToken', access_token, { httpOnly: true })
+        res.cookie('refreshToken', refresh_token, { httpOnly: true })
 
         let options = {
           url: "https://api.spotify.com/v1/me",
@@ -74,7 +77,7 @@ router.get("/callback", (req, res) => {
         };
 
         // use the access token to access the Spotify Web API
-        request.get(options, function (error, response, body) {
+        request.get(options, (error, response, body) => {
           console.log(body);
         });
 
@@ -93,7 +96,7 @@ router.get("/callback", (req, res) => {
   }
 });
 
-router.get("/refresh_token", function (req, res) {
+router.get("/refresh_token", (req, res) => {
   // requesting access token from refresh token
   let refresh_token = req.query.refresh_token;
   let authOptions = {
@@ -109,7 +112,7 @@ router.get("/refresh_token", function (req, res) {
     json: true,
   };
 
-  request.post(authOptions, function (error, response, body) {
+  request.post(authOptions, (error, response, body) => {
     if (!error && response.statusCode === 200) {
       let access_token = body.access_token;
       res.send({
