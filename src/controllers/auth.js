@@ -3,7 +3,7 @@ const express = require("express");
 const request = require("request");
 const auth = express.Router();
 
-const middleware = require('../middleware')
+const middleware = require("../middleware");
 // let cors = require("cors");
 let client_id = process.env.CLIENT_ID;
 let client_secret = process.env.CLIENT_SECRET;
@@ -43,7 +43,9 @@ auth.get("/callback", (req, res) => {
       headers: {
         Authorization:
           "Basic " +
-          new Buffer(client_id + ":" + client_secret).toString("base64"),
+          new Buffer.from(client_id + ":" + client_secret, "utf8").toString(
+            "base64"
+          ),
       },
       json: true,
     };
@@ -53,8 +55,8 @@ auth.get("/callback", (req, res) => {
         let access_token = body.access_token,
           refresh_token = body.refresh_token;
 
-        res.cookie('accessToken', access_token, { httpOnly: true })
-        res.cookie('refreshToken', refresh_token, { httpOnly: true })
+        res.cookie("accessToken", access_token, { httpOnly: true });
+        res.cookie("refreshToken", refresh_token, { httpOnly: true });
 
         let options = {
           url: "https://api.spotify.com/v1/me",
@@ -89,7 +91,10 @@ auth.get("/refresh_token", (req, res) => {
     url: "https://accounts.spotify.com/api/token",
     headers: {
       Authorization:
-        "Basic " + new Buffer.from(client_id + ":" + client_secret, "base64"),
+        "Basic " +
+        new Buffer.from(client_id + ":" + client_secret, "utf8").toString(
+          "base64"
+        ),
     },
     form: {
       grant_type: "refresh_token",
