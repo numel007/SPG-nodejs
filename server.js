@@ -24,6 +24,7 @@ app.use(cookieParser());
 app.use(express.static("public"));
 
 // Routes
+app.use(require("./src/controllers/auth"))
 app.use(require("./src/controllers/routes"));
 
 // Start server
