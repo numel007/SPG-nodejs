@@ -17,6 +17,13 @@ const ranString = (length) => {
 const verifyToken = (req, res, next) => {
 	const accessToken = req.cookies.accessToken;
 	const refreshToken = req.cookies.refreshToken;
+
+	if (!refreshToken) {
+		req.noRefreshToken = "Refresh token not found. Redirecting to login page"
+		next();
+		return
+	}
+
 	let authOptions = {
 		url: "https://api.spotify.com/v1/me",
 		headers: { Authorization: "Bearer " + accessToken },

@@ -34,7 +34,12 @@ router.post("/create_playlist", middleware.verifyToken, (req, res) => {
 });
 
 router.get("/search_autocomplete", middleware.verifyToken, (req, res) => {
-    res.render("search_autocomplete", { accessToken: req.accessToken })
+    if (req.noRefreshToken) {
+        res.redirect('/login')
+    } else {
+        res.render("search_autocomplete", { accessToken: req.accessToken })
+
+    }
 })
 
 router.post("/search_autocomplete", middleware.verifyToken, (req, res) => {
