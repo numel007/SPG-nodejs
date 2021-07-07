@@ -75,7 +75,7 @@ $(document).ready(function () {
         e.preventDefault()
         let artistNames = $('.artist-search').map(function() {
             return this.value;
-        }).get();
+        });
         console.log(artistNames)
         $.ajax({
             type: "POST",
