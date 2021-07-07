@@ -25,8 +25,7 @@ $(document).ready(function () {
                     res($.map(data.artists.items, function (item) {
                         return {
                             label: item.name,
-                            value: item.name,
-                            id: item.id
+                            value: item.name
                         }
                     }))
                 }
@@ -55,8 +54,7 @@ $(document).ready(function () {
                     res($.map(data.artists.items, function (item) {
                         return {
                             label: item.name,
-                            value: item.name,
-                            id: item.id
+                            value: item.name
                         }
                     }))
                 }
@@ -75,7 +73,7 @@ $(document).ready(function () {
         e.preventDefault()
         let artistNames = $('.artist-search').map(function() {
             return this.value;
-        });
+        }).get();
         console.log(artistNames)
         $.ajax({
             type: "POST",
