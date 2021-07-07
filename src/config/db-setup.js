@@ -5,8 +5,10 @@ mongoose.set("useUnifiedTopology", true);
 mongoose.set("useFindAndModify", false);
 mongoose.connect(mongoUri, { useNewUrlParser: true });
 
-mongoose.connection.on("error", (err) => {
-	throw new Error(`Failed to connect to ${mongoUri}`);
-});
-
+mongoose
+	.connect(mongoUri)
+	.then(() => console.log("Connected to DB"))
+	.catch((err) => {
+		throw err;
+	});
 module.exports = mongoose.connection;

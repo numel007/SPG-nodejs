@@ -23,13 +23,16 @@ app.use(cookieParser());
 // Set up express static folder
 app.use(express.static("public"));
 
+// MongoDB Setup
+require("./src/config/db-setup");
+
 // Routes
-app.use(require("./src/controllers/auth"))
+app.use(require("./src/controllers/auth"));
 app.use(require("./src/controllers/routes"));
 
 // Start server
 app.listen(port, () => {
-  console.log(`SPG listening on ${port}`);
+	console.log(`SPG listening on ${port}`);
 });
 
 module.exports = app;
