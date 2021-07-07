@@ -4,6 +4,7 @@ const express = require("express");
 const router = express.Router();
 
 const middleware = require("../middleware");
+const Playlist = require("../models/playlist");
 
 router.get("/", (req, res) => {
 	res.render("home");
@@ -30,6 +31,20 @@ router.post("/create_playlist", middleware.verifyToken, (req, res) => {
 
 	request.post(playlistOptions, (err, res, body) => {
 		console.log(body);
+		let newPlaylist = new Playlist();
+
+		newPlaylist.playlistId = body.id;
+		newPlaylist.userId = req.user_id;
+		newPlaylist.refreshToken = req.accessToken;
+		newPlaylist.name = body.name;
+		newPlaylist.description = body.description;
+		newPlaylist.collaborative = body.collaborative;
+
+		console.log(`NEW PLAYLIST: ${newPlaylist}`);
+
+		newPlaylist.save().then((playlist) => {
+			res.send(Playlist.findById(playlist.playlistId));
+		});
 	});
 });
 

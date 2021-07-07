@@ -7,6 +7,7 @@ const PlaylistSchema = new Schema({
 	refreshToken: { type: String, required: true },
 	name: { type: String, required: true },
 	description: { type: String, required: false },
+	collaborative: { type: Boolean, required: true },
 });
 
 module.exports = mongoose.model("Playlist", PlaylistSchema);
