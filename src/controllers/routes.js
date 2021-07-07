@@ -38,7 +38,6 @@ router.get("/search_autocomplete", middleware.verifyToken, (req, res) => {
         res.redirect('/login')
     } else {
         res.render("search_autocomplete", { accessToken: req.accessToken })
-
     }
 })
 

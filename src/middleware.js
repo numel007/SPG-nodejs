@@ -46,7 +46,10 @@ const verifyToken = (req, res, next) => {
 					});
 				})
 				.catch((err) => {
-					throw err.message;
+					console.log(err)
+					req.noRefreshToken = err
+					next()
+					return
 				});
 		} else {
 			req.accessToken = accessToken;
