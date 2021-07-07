@@ -74,7 +74,34 @@ const getAccessToken = (refreshToken) => {
 	});
 };
 
+// Gets artist ID based on name
+const getArtistId = (accessToken, artist) => {
+	return new Promise( (resolve, reject) => {
+		const authOptions = {
+			url: "https://api.spotify.com/v1/search",
+			headers: {
+				Authorization: "Bearer " + accessToken
+			},
+			qs: {
+				type: "artist",
+				limit: 1,
+				q: artist
+			},
+			json: true
+		};
+	
+		request.get(authOptions, (err, res, body) => {
+			if (res.statusCode === 200) {
+				resolve(body.artists.items[0].id);
+			} else {
+				reject(err);
+			}
+		})
+	})
+}
+
 module.exports = {
 	ranString: ranString,
 	verifyToken: verifyToken,
+	getArtistId: getArtistId
 };

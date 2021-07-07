@@ -38,7 +38,14 @@ router.get("/search_autocomplete", middleware.verifyToken, (req, res) => {
 })
 
 router.post("/search_autocomplete", middleware.verifyToken, (req, res) => {
-    console.log(req.body)
+    // Example loop to retrieve artist ID
+    const artistList = req.body.name
+    for (let i = 0; i < artistList.length; i++) {
+        middleware.getArtistId(req.accessToken, artistList[i])
+        .then(id => {
+            console.log(id)
+        })
+    }
     res.render("home")
 })
 
