@@ -14,7 +14,7 @@ app.set("view engine", "handlebars");
 app.engine("handlebars", handlebars());
 
 // Use Body Parser
-app.use(express.urlencoded({ extended: false }));
+app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
 // Use cookieParser

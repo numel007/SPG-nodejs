@@ -17,6 +17,13 @@ const ranString = (length) => {
 const verifyToken = (req, res, next) => {
 	const accessToken = req.cookies.accessToken;
 	const refreshToken = req.cookies.refreshToken;
+
+	if (!refreshToken) {
+		req.noRefreshToken = "Refresh token not found. Redirecting to login page"
+		next();
+		return
+	}
+
 	let authOptions = {
 		url: "https://api.spotify.com/v1/me",
 		headers: { Authorization: "Bearer " + accessToken },
@@ -39,7 +46,10 @@ const verifyToken = (req, res, next) => {
 					});
 				})
 				.catch((err) => {
-					throw err.message;
+					console.log(err)
+					req.noRefreshToken = err
+					next()
+					return
 				});
 		} else {
 			req.accessToken = accessToken;
@@ -74,7 +84,34 @@ const getAccessToken = (refreshToken) => {
 	});
 };
 
+// Gets artist ID based on name
+const getArtistId = (accessToken, artist) => {
+	return new Promise( (resolve, reject) => {
+		const authOptions = {
+			url: "https://api.spotify.com/v1/search",
+			headers: {
+				Authorization: "Bearer " + accessToken
+			},
+			qs: {
+				type: "artist",
+				limit: 1,
+				q: artist
+			},
+			json: true
+		};
+	
+		request.get(authOptions, (err, res, body) => {
+			if (res.statusCode === 200) {
+				resolve(body.artists.items[0].id);
+			} else {
+				reject(err);
+			}
+		})
+	})
+}
+
 module.exports = {
 	ranString: ranString,
 	verifyToken: verifyToken,
+	getArtistId: getArtistId
 };
