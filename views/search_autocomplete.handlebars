@@ -1,0 +1,53 @@
+<h2>Autocomplete Test</h2>
+
+<script>
+$(document).ready(function() {
+    let artistId = '';
+
+    $("#artist-search").autocomplete({
+        source: function(req, res) {
+            $.ajax({
+                type: "GET",
+                url: "https://api.spotify.com/v1/search",
+                headers: {
+                    Authorization: "Bearer " + "{{ accessToken }}"
+                },
+                data: {
+                    type: "artist",
+                    limit: 20,
+                    contentType: "application/json; charset=utf-8",
+                    format: "json",
+                    q: req.term
+                },
+                success: function(data) {
+                    res($.map(data.artists.items, function(item) {
+                        artistId = item.id
+                        return {
+                            label: item.name,
+                            value: item.name,
+                            id: item.id
+                        }
+                    }))
+                }
+            })
+        },
+    })
+
+    $("#submit-button").on("click", function(e) {
+        e.preventDefault()
+        $.ajax({
+            type: "POST",
+            url: "/search_autocomplete",
+            data: {
+                name: $('#artist-search').val(),
+                id: artistId
+            }
+        })
+    })
+})
+</script>
+
+<form action='/search_autocomplete' method='POST'>
+    <input type="text" id="artist-search" name="artist" placeholder="Enter artist">
+    <button type="submit" id="submit-button" class="btn btn-primary">Search</button>
+</form>
