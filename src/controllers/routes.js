@@ -29,22 +29,25 @@ router.post("/create_playlist", middleware.verifyToken, (req, res) => {
 		json: true,
 	};
 
-	request.post(playlistOptions, (err, res, body) => {
-		console.log(body);
-		let newPlaylist = new Playlist();
-
-		newPlaylist.playlistId = body.id;
-		newPlaylist.userId = req.user_id;
-		newPlaylist.refreshToken = req.accessToken;
-		newPlaylist.name = body.name;
-		newPlaylist.description = body.description;
-		newPlaylist.collaborative = body.collaborative;
-
-		console.log(`NEW PLAYLIST: ${newPlaylist}`);
-
-		newPlaylist.save().then((playlist) => {
-			res.send(Playlist.findById(playlist.playlistId));
+	request.post(playlistOptions, (err, response, body) => {
+		let newPlaylist = new Playlist({
+			playlistId: body.id,
+			userId: req.user_id,
+			refreshToken: req.accessToken,
+			name: body.name,
+			description: body.description,
+			collaborative: body.collaborative,
 		});
+
+		newPlaylist
+			.save()
+			.then(() => {
+				return Playlist.find({ playlistId: body.id }).lean();
+			})
+			.then((playlist) => {
+				console.log(playlist);
+				res.render("playlist_details", { playlist });
+			});
 	});
 });
 
