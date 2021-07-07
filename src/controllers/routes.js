@@ -11,7 +11,11 @@ router.get("/", (req, res) => {
 });
 
 router.get("/create_playlist", middleware.verifyToken, (req, res) => {
-	res.render("create_playlist");
+	if (req.noRefreshToken) {
+		res.redirect("/login");
+	} else {
+		res.render("create_playlist");
+	}
 });
 
 router.post("/create_playlist", middleware.verifyToken, (req, res) => {
