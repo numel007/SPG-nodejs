@@ -14,7 +14,7 @@ router.get("/create_playlist", middleware.verifyToken, (req, res) => {
 	if (req.noRefreshToken) {
 		res.redirect("/login");
 	} else {
-		res.render("create_playlist");
+		res.render("create_playlist", { accessToken: req.accessToken });
 	}
 });
 
@@ -29,8 +29,8 @@ router.post("/create_playlist", middleware.verifyToken, (req, res) => {
 				"Content-Type": "application/json",
 			},
 			body: {
-				name: req.body.name,
-				description: req.body.description,
+				name: req.body.playlistName,
+				description: req.body.Description,
 				public: false,
 			},
 			json: true,
@@ -46,24 +46,14 @@ router.post("/create_playlist", middleware.verifyToken, (req, res) => {
 				collaborative: body.collaborative,
 			});
 
-			newPlaylist
-				.save()
-				.then(() => {
-					return Playlist.find({ playlistId: body.id }).lean();
-				})
-				.then((playlist) => {
-					console.log(playlist);
-					res.render("playlist_details", { playlist });
+			newPlaylist.save().then(() => {
+				// Parse seed artists
+				middleware.getArtistId(req.accessToken, req.body.artistNames).then((artistIds) => {
+					// TODO: Call recommendation endpoint w/ artistIds
+					// TODO: Limit max artist inputs to 5
 				});
+			});
 		});
-	}
-});
-
-router.get("/search_autocomplete", middleware.verifyToken, (req, res) => {
-	if (req.noRefreshToken) {
-		res.redirect("/login");
-	} else {
-		res.render("search_autocomplete", { accessToken: req.accessToken });
 	}
 });
 

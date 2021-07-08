@@ -1,15 +1,22 @@
+<script>
+const accessToken = '{{ accessToken }}'
+</script>
+
 <h1>CREATE PLAYLIST</h1>
 
-<form action="/create_playlist" method="post">
+<form class="form">
 
     <legend>New playlist form</legend>
 
     <label for="name">Playlist name</label>
-    <input type="text" name="name" id="name" placeholder="Name">
+    <input type="text" class="playlist-name" name="name" id="name" placeholder="Name">
 
     <label for="description">Playlist description</label>
-    <input type="text" name="description" id="description" placeholder="playlist description">
+    <input type="text" class="playlist-description" name="description" id="description" placeholder="playlist description">
 
-    <button type="submit">Create playlist</button>
+    <h2>Seed Artists</h2>
+    <div><input type="text" id="first-form" class="artist-search" name="artist" placeholder="Enter artist"></div>
+    <button type="submit" class="new-field">Add Another Artist</button>
+    <button type="submit" id="submit-button" class="btn btn-primary">Search</button>
 
 </form>

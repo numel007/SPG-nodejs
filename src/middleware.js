@@ -19,9 +19,9 @@ const verifyToken = (req, res, next) => {
 	const refreshToken = req.cookies.refreshToken;
 
 	if (!refreshToken) {
-		req.noRefreshToken = "Refresh token not found. Redirecting to login page"
+		req.noRefreshToken = "Refresh token not found. Redirecting to login page";
 		next();
-		return
+		return;
 	}
 
 	let authOptions = {
@@ -46,10 +46,10 @@ const verifyToken = (req, res, next) => {
 					});
 				})
 				.catch((err) => {
-					console.log(err)
-					req.noRefreshToken = err
-					next()
-					return
+					console.log(err);
+					req.noRefreshToken = err;
+					next();
+					return;
 				});
 		} else {
 			req.accessToken = accessToken;
@@ -85,33 +85,42 @@ const getAccessToken = (refreshToken) => {
 };
 
 // Gets artist ID based on name
-const getArtistId = (accessToken, artist) => {
-	return new Promise( (resolve, reject) => {
-		const authOptions = {
-			url: "https://api.spotify.com/v1/search",
-			headers: {
-				Authorization: "Bearer " + accessToken
-			},
-			qs: {
-				type: "artist",
-				limit: 1,
-				q: artist
-			},
-			json: true
-		};
-	
-		request.get(authOptions, (err, res, body) => {
-			if (res.statusCode === 200) {
-				resolve(body.artists.items[0].id);
-			} else {
-				reject(err);
-			}
-		})
-	})
-}
+const getArtistId = (accessToken, artistList) => {
+	return new Promise((resolve, reject) => {
+		let promises = [];
+
+		for (let i = 0; i < artistList.length; i++) {
+			promises.push(
+				new Promise((resolve, reject) => {
+					const authOptions = {
+						url: "https://api.spotify.com/v1/search",
+						headers: {
+							Authorization: "Bearer " + accessToken,
+						},
+						qs: {
+							type: "artist",
+							limit: 1,
+							q: artistList[i],
+						},
+						json: true,
+					};
+
+					request.get(authOptions, (err, res, body) => {
+						if (res.statusCode === 200) {
+							resolve(body.artists.items[0].id);
+						} else {
+							reject(err);
+						}
+					});
+				})
+			);
+		}
+		Promise.all(promises).then((artistIds) => resolve(artistIds));
+	});
+};
 
 module.exports = {
 	ranString: ranString,
 	verifyToken: verifyToken,
-	getArtistId: getArtistId
+	getArtistId: getArtistId,
 };
