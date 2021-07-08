@@ -46,11 +46,11 @@ router.post("/create_playlist", middleware.verifyToken, (req, res) => {
 				collaborative: body.collaborative,
 			});
 
-			let seedArtistString = ``;
 			newPlaylist.save().then(() => {
 				// Parse seed artists
 				middleware.getArtistId(req.accessToken, req.body.artistNames).then((artistIds) => {
-					console.log(`These are the artists: ${artistIds}`);
+					// TODO: Call recommendation endpoint w/ artistIds
+					// TODO: Limit max artist inputs to 5
 				});
 			});
 		});
