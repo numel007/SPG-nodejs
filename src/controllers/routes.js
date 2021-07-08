@@ -55,8 +55,14 @@ router.post("/create_playlist", middleware.verifyToken, (req, res) => {
 						// Now clear the playlist
 						helpers
 							.clearPlaylist(body.id, req.accessToken)
-							.then(() => console.log("Playlist cleared."));
-						// Then add recommendIds to playlist
+							// Then add recommendIds to playlist
+							.then(() => {
+								helpers
+									.addSongToPlaylist(body.id, req.accessToken, recommendUris[0])
+									.then(() => {
+										res.render("playlist_details");
+									});
+							});
 					});
 				});
 			});

@@ -6,7 +6,7 @@ const client_secret = process.env.CLIENT_SECRET;
 const getRecommendations = (seedString, accessToken) => {
 	return new Promise((resolve, reject) => {
 		recommendationsOptions = {
-			url: `https://api.spotify.com/v1/recommendations?limit=5&seed_artists=${seedString}`,
+			url: `https://api.spotify.com/v1/recommendations?limit=50&seed_artists=${seedString}`,
 			headers: {
 				Authorization: "Bearer " + accessToken,
 				"Content-Type": "application/json",
@@ -19,14 +19,14 @@ const getRecommendations = (seedString, accessToken) => {
 				reject(err);
 			}
 			let recommendList = body.tracks;
-			let recommendIds = [];
+			let recommendUris = [];
 			let recommendTitles = [];
 
 			for (let i = 0; i < recommendList.length; i++) {
-				recommendIds.push(recommendList[i].id);
+				recommendUris.push(recommendList[i].uri);
 				recommendTitles.push(recommendList[i].name);
 			}
-			resolve([recommendIds, recommendTitles]);
+			resolve([recommendUris, recommendTitles]);
 		});
 	});
 };
@@ -49,7 +49,30 @@ const getPlaylistURIs = (playlistId, accessToken) => {
 					songURIs.push(songsList[i].track.uri);
 				}
 				resolve(songURIs);
+			} else {
+				resolve(songURIs);
 			}
+		});
+	});
+};
+
+const addSongToPlaylist = (playlistId, accessToken, uriArray) => {
+	return new Promise((resolve, reject) => {
+		addSongsOptions = {
+			url: `https://api.spotify.com/v1/playlists/${playlistId}/tracks`,
+			headers: {
+				Authorization: "Bearer " + accessToken,
+				"Content-Type": "application/json",
+			},
+			body: { uris: uriArray },
+			json: true,
+		};
+
+		request.post(addSongsOptions, (err, res, body) => {
+			if (res.statusCode === 201) {
+				resolve(body);
+			}
+			reject(err);
 		});
 	});
 };
@@ -63,6 +86,8 @@ const clearPlaylist = (playlistId, accessToken) => {
 					for (let i = 0; i < songURIs.length; i++) {
 						songArray.push({ uri: songURIs[i] });
 					}
+					return songArray;
+				} else {
 					return songArray;
 				}
 			})
@@ -78,7 +103,7 @@ const clearPlaylist = (playlistId, accessToken) => {
 				};
 
 				request.delete(deleteOptions, (err, res, body) => {
-					resolve();
+					resolve(body);
 				});
 			});
 	});
@@ -88,4 +113,5 @@ module.exports = {
 	getRecommendations: getRecommendations,
 	getPlaylistURIs: getPlaylistURIs,
 	clearPlaylist: clearPlaylist,
+	addSongToPlaylist: addSongToPlaylist,
 };
