@@ -50,7 +50,7 @@ router.post("/create_playlist", middleware.verifyToken, (req, res) => {
 			newPlaylist.save().then(() => {
 				// Parse seed artists
 				middleware.getArtistId(req.accessToken, req.body.artistNames).then((artistIds) => {
-					console.log(artistIds);
+					console.log(`These are the artists: ${artistIds}`);
 				});
 			});
 		});

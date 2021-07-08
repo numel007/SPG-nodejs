@@ -87,33 +87,35 @@ const getAccessToken = (refreshToken) => {
 // Gets artist ID based on name
 const getArtistId = (accessToken, artistList) => {
 	return new Promise((resolve, reject) => {
-		let artistIdList = [];
-		for (let i = 0; i < artistList.length; i++) {
-			console.log(artistList[i]);
-			const authOptions = {
-				url: "https://api.spotify.com/v1/search",
-				headers: {
-					Authorization: "Bearer " + accessToken,
-				},
-				qs: {
-					type: "artist",
-					limit: 1,
-					q: artistList[i],
-				},
-				json: true,
-			};
+		let promises = [];
 
-			request.get(authOptions, (err, res, body) => {
-				if (res.statusCode === 200) {
-					// resolve(body.artists.items[0].id);
-					artistIdList.shift(body.artists.items[0].id);
-					console.log(artistIdList);
-				} else {
-					reject(err);
-				}
-			});
+		for (let i = 0; i < artistList.length; i++) {
+			promises.push(
+				new Promise((resolve, reject) => {
+					const authOptions = {
+						url: "https://api.spotify.com/v1/search",
+						headers: {
+							Authorization: "Bearer " + accessToken,
+						},
+						qs: {
+							type: "artist",
+							limit: 1,
+							q: artistList[i],
+						},
+						json: true,
+					};
+
+					request.get(authOptions, (err, res, body) => {
+						if (res.statusCode === 200) {
+							resolve(body.artists.items[0].id);
+						} else {
+							reject(err);
+						}
+					});
+				})
+			);
 		}
-		resolve(artistIdList);
+		Promise.all(promises).then((artistIds) => resolve(artistIds));
 	});
 };
 
