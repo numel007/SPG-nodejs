@@ -14,7 +14,7 @@ router.get("/create_playlist", middleware.verifyToken, (req, res) => {
 	if (req.noRefreshToken) {
 		res.redirect("/login");
 	} else {
-		res.render("create_playlist");
+		res.render("create_playlist", { accessToken: req.accessToken });
 	}
 });
 
