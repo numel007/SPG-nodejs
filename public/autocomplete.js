@@ -7,7 +7,7 @@ $(document).ready(function () {
 
 		if (fieldCounter < 5) {
 			$(".form").append(
-				'<div><input type="text" class="artist-search" placeholder="Enter artist"><a href="#" class="delete-field">Remove</a></div>'
+				'<div><input type="text" id="artist-search" class="artist-search" placeholder="Enter artist"><a href="#" class="delete-field btn btn-danger btn-sm">Remove</a></div>'
 			);
 			fieldCounter ++
 		}
@@ -33,6 +33,7 @@ $(document).ready(function () {
 								return {
 									label: item.name,
 									value: item.name,
+									thumbnail: item.images[0]
 								};
 							})
 						);
@@ -40,6 +41,22 @@ $(document).ready(function () {
 				});
 			},
 		});
+
+		$(".artist-search").data("ui-autocomplete")._renderItem = function (ul, item) {
+			let thumbnail = ''
+	
+			if (item.thumbnail) {
+				thumbnail = item.thumbnail.url
+			} else {
+				thumbnail = 'https://i.imgur.com/KPquSAA.png'
+			}
+	
+			return $('<li/>', {'data-value': item.label})
+					.append($('<a/>', {href: "#"})
+					.append($('<img/>', {src: thumbnail, alt: item.label}))
+					.append(item.label))
+					.appendTo(ul);
+		};
 	});
 
 	// Autocomplete for first input field
@@ -64,6 +81,7 @@ $(document).ready(function () {
 							return {
 								label: item.name,
 								value: item.name,
+								thumbnail: item.images[0]
 							};
 						})
 					);
@@ -71,6 +89,22 @@ $(document).ready(function () {
 			});
 		},
 	});
+
+	$("#first-form").data("ui-autocomplete")._renderItem = function (ul, item) {
+		let thumbnail = ''
+
+		if (item.thumbnail) {
+			thumbnail = item.thumbnail.url
+		} else {
+			thumbnail = 'https://i.imgur.com/KPquSAA.png'
+		}
+
+		return $('<li/>', {'data-value': item.label})
+				.append($('<a/>', {href: "#"})
+				.append($('<img/>', {src: thumbnail, alt: item.label}))
+				.append(item.label))
+				.appendTo(ul);
+	};
 
 	// Delete field
 	$(".form").on("click", ".delete-field", function (e) {
