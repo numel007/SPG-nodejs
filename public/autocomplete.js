@@ -1,10 +1,17 @@
 $(document).ready(function () {
+	let fieldCounter = 1;
+
 	// Generate more input fields with autocomplete functionality
 	$(".new-field").on("click", function (e) {
 		e.preventDefault();
-		$(".form").append(
-			'<div><input type="text" class="artist-search" placeholder="Enter artist"><a href="#" class="delete-field">Remove</a></div>'
-		);
+
+		if (fieldCounter < 5) {
+			$(".form").append(
+				'<div><input type="text" class="artist-search" placeholder="Enter artist"><a href="#" class="delete-field">Remove</a></div>'
+			);
+			fieldCounter ++
+		}
+
 		$(".artist-search").autocomplete({
 			source: function (req, res) {
 				$.ajax({
@@ -69,13 +76,27 @@ $(document).ready(function () {
 	$(".form").on("click", ".delete-field", function (e) {
 		e.preventDefault();
 		$(this).parent("div").remove();
+		fieldCounter --
 	});
 
 	// Submit artist queries
 	$("#submit-button").on("click", function (e) {
 		e.preventDefault();
-		let playlistName = $(".playlist-name").val();
-		let playlistDescription = $(".playlist-description").val();
+		let playlistName = ''
+		let playlistDescription = ''
+
+		if ($(".playlist-name").val() == '') {
+			playlistName = 'null'
+		} else {
+			playlistName = $(".playlist-name").val()
+		}
+
+		if ($(".playlist-description").val() == '') {
+			playlistDescription = 'null'
+		} else {
+			playlistDescription = $(".playlist-description").val()
+		}
+
 		let artistNames = $(".artist-search")
 			.map(function () {
 				return this.value;
