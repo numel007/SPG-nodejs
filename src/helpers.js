@@ -33,6 +33,37 @@ const getRecommendations = (seedString, accessToken) => {
 	});
 };
 
+const getPlaylistURIs = (playlistId, accessToken) => {
+	return new Promise((resolve, reject) => {
+		// Get song uris
+		songURIs = [];
+		playlistOptions = {
+			url: `https://api.spotify.com/v1/playlists/${playlistId}/tracks`,
+			headers: { Authorization: "Bearer " + accessToken },
+		};
+
+		request.get(playlistOptions, (err, res, body) => {
+			let songsList = body.items;
+
+			if (body.items != undefined) {
+				for (let i = 0; i < songsList.length; i++) {
+					songURIs.push(songsList[i].track.uri);
+				}
+			}
+		});
+
+		resolve(songURIs);
+	});
+};
+
+const clearPlaylist = (playlistId, accessToken) => {
+	return new Promise((resolve, reject) => {
+		songsList = [];
+	});
+};
+
 module.exports = {
 	getRecommendations: getRecommendations,
+	getPlaylistURIs: getPlaylistURIs,
+	clearPlaylist: clearPlaylist,
 };

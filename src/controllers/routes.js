@@ -53,8 +53,12 @@ router.post("/create_playlist", middleware.verifyToken, (req, res) => {
 					// Call recommendation endpoint w/ artistIds
 					helpers.getRecommendations(artistIds, req.accessToken).then((recommends) => {
 						console.log(recommends);
+						// Now clear the playlist
+						helpers
+							.clearPlaylist(body.id, req.accessToken)
+							.then((songURIS) => console.log(songURIS));
+						// Then add recommendIds to playlist
 					});
-					// TODO: Limit max artist inputs to 5
 				});
 			});
 		});
