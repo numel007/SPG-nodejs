@@ -115,7 +115,13 @@ const getArtistId = (accessToken, artistList) => {
 				})
 			);
 		}
-		Promise.all(promises).then((artistIds) => resolve(artistIds));
+		Promise.all(promises).then((artistIds) => {
+			seedString = `${artistIds[0]}`;
+			for (let i = 1; i < artistIds.length; i++) {
+				seedString += "," + artistIds[i];
+			}
+			resolve(seedString);
+		});
 	});
 };
 
