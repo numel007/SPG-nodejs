@@ -42,7 +42,7 @@ $(document).ready(function () {
 			},
 		});
 
-		$(".artist-search").data("ui-autocomplete")._renderItem = function (ul, item) {
+		$("#artist-search").data("ui-autocomplete")._renderItem = function (ul, item) {
 			let thumbnail = ''
 	
 			if (item.thumbnail) {
@@ -90,6 +90,7 @@ $(document).ready(function () {
 		},
 	});
 
+	// Add thumbnails to autocomplete results in the first input field
 	$("#first-form").data("ui-autocomplete")._renderItem = function (ul, item) {
 		let thumbnail = ''
 
@@ -100,9 +101,8 @@ $(document).ready(function () {
 		}
 
 		return $('<li/>', {'data-value': item.label})
-				.append($('<a/>', {href: "#"})
 				.append($('<img/>', {src: thumbnail, alt: item.label}))
-				.append(item.label))
+				.append(item.label)
 				.appendTo(ul);
 	};
 
