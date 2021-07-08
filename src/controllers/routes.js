@@ -51,12 +51,11 @@ router.post("/create_playlist", middleware.verifyToken, (req, res) => {
 				// Parse seed artists
 				middleware.getArtistId(req.accessToken, req.body.artistNames).then((artistIds) => {
 					// Call recommendation endpoint w/ artistIds
-					helpers.getRecommendations(artistIds, req.accessToken).then((recommends) => {
-						console.log(recommends);
+					helpers.getRecommendations(artistIds, req.accessToken).then((recommendUris) => {
 						// Now clear the playlist
 						helpers
 							.clearPlaylist(body.id, req.accessToken)
-							.then((songURIS) => console.log(songURIS));
+							.then(() => console.log("Playlist cleared."));
 						// Then add recommendIds to playlist
 					});
 				});

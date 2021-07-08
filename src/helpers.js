@@ -26,8 +26,6 @@ const getRecommendations = (seedString, accessToken) => {
 				recommendIds.push(recommendList[i].id);
 				recommendTitles.push(recommendList[i].name);
 			}
-			console.log(`Songs List: ${recommendTitles}`);
-			console.log(`Song IDs: ${recommendIds}`);
 			resolve([recommendIds, recommendTitles]);
 		});
 	});
@@ -40,25 +38,49 @@ const getPlaylistURIs = (playlistId, accessToken) => {
 		playlistOptions = {
 			url: `https://api.spotify.com/v1/playlists/${playlistId}/tracks`,
 			headers: { Authorization: "Bearer " + accessToken },
+			json: true,
 		};
 
 		request.get(playlistOptions, (err, res, body) => {
 			let songsList = body.items;
 
-			if (body.items != undefined) {
+			if (body.items.length != 0) {
 				for (let i = 0; i < songsList.length; i++) {
 					songURIs.push(songsList[i].track.uri);
 				}
+				resolve(songURIs);
 			}
 		});
-
-		resolve(songURIs);
 	});
 };
 
 const clearPlaylist = (playlistId, accessToken) => {
 	return new Promise((resolve, reject) => {
-		songsList = [];
+		songArray = [];
+		getPlaylistURIs(playlistId, accessToken)
+			.then((songURIs) => {
+				if (songURIs.length != 0) {
+					for (let i = 0; i < songURIs.length; i++) {
+						songArray.push({ uri: songURIs[i] });
+					}
+					return songArray;
+				}
+			})
+			.then((songArray) => {
+				let deleteOptions = {
+					url: `https://api.spotify.com/v1/playlists/${playlistId}/tracks`,
+					headers: {
+						Authorization: "Bearer " + accessToken,
+						"Content-Type": "application/json",
+					},
+					body: { tracks: songArray },
+					json: true,
+				};
+
+				request.delete(deleteOptions, (err, res, body) => {
+					resolve();
+				});
+			});
 	});
 };
 
