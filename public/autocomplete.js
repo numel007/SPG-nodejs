@@ -9,7 +9,7 @@ $(document).ready(function () {
                 type: "GET",
                 url: "https://api.spotify.com/v1/search",
                 headers: {
-                    Authorization: "Bearer " + "{{ accessToken }}"
+                    Authorization: "Bearer " + accessToken
                 },
                 data: {
                     type: "artist",
@@ -38,7 +38,7 @@ $(document).ready(function () {
                 type: "GET",
                 url: "https://api.spotify.com/v1/search",
                 headers: {
-                    Authorization: "Bearer " + "{{ accessToken }}"
+                    Authorization: "Bearer " + accessToken
                 },
                 data: {
                     type: "artist",
