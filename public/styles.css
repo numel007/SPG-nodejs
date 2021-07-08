@@ -1,21 +1,47 @@
-.ui-menu
-{
+/* Set autocomplete dropdown menu properties */
+.ui-menu{
     position: relative;
     list-style: none;
     background-color: white;
     border-radius: 18px;
     z-index:10;
     box-shadow: 5px 0px 8px white;
-    width: 214px;
+    width: 200px;
     line-height: 200%;
-    font-size: 18px;
-    padding: 15px 0;
+    font-size: 16px;
+    padding: 5px 0;
     border: solid 1px grey;
-
 }
-.ui-menu .ui-menu-item
-{
+
+.ui-menu .ui-menu-item{
     margin: none;
-    padding-left: 15px;
-    padding-right:10px;
+    padding-left: 5px;
+    padding-right:5px;
+}
+
+/* Set color when hovering over items in autocomplete dropdown menu */
+.ui-menu .ui-menu-item:hover{
+    background-color: gray;
+}
+
+/* Set autocomplete dropdown thumbnail size */
+.ui-menu img{
+    width: 40px;
+    height: 40px;
+    border-radius: 5px;
+}
+
+.ui-menu a{
+    color: black;
+    text-decoration: none;
+}
+
+/* Hide autocomplete selection helpers */
+.ui-helper-hidden-accessible{
+    display: none;
+}
+
+/* Delete button for extra artist input fields */
+.delete-field{
+    font-size: 10px;
 }
