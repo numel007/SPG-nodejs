@@ -4,6 +4,7 @@ const express = require("express");
 const router = express.Router();
 
 const middleware = require("../middleware");
+const helpers = require("../helpers");
 const Playlist = require("../models/playlist");
 
 router.get("/", (req, res) => {
@@ -49,7 +50,10 @@ router.post("/create_playlist", middleware.verifyToken, (req, res) => {
 			newPlaylist.save().then(() => {
 				// Parse seed artists
 				middleware.getArtistId(req.accessToken, req.body.artistNames).then((artistIds) => {
-					// TODO: Call recommendation endpoint w/ artistIds
+					// Call recommendation endpoint w/ artistIds
+					helpers.getRecommendations(artistIds, req.accessToken).then((recommends) => {
+						console.log(recommends);
+					});
 					// TODO: Limit max artist inputs to 5
 				});
 			});
