@@ -1,9 +1,9 @@
 /* Set autocomplete dropdown menu properties */
 .ui-menu {
     list-style: none;
-    background-color: #F8F8F8;
+    background-color: rgba(248, 248, 248, 0.9);
     position: absolute;
-    box-shadow: 0 2px 4px 0px;
+    box-shadow: 0 2px 3px 0px;
     border-radius: 3px;
     border: 1px solid #FAFAFA;
     z-index: 100;
