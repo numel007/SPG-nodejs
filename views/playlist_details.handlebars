@@ -1,5 +1,3 @@
-<h1>Playlist: {{playlist.[0].name}}<h1>
-    <ul>
-        <li>Author: {{playlist.[0].userId}}</li>
-        <li>Description: {{playlist.[0].description}}</li>
-    </ul>
+{{#each data}}
+<p class="tracks">Name:{{ track.name }} - Artists:{{#each track.artists}}{{name}}//{{/each}} - Album:{{track.album.name}} - <img src={{track.album.images.[2].url}}></img></p>
+{{/each}}

@@ -41,7 +41,8 @@ router.post("/create_playlist", middleware.verifyToken, (req, res) => {
 			let newPlaylist = new Playlist({
 				playlistId: body.id,
 				userId: req.user_id,
-				refreshToken: req.accessToken,
+				accessToken: req.accessToken,
+				refreshToken: req.cookies.refreshToken,
 				name: body.name,
 				description: body.description,
 				collaborative: body.collaborative,
@@ -60,7 +61,7 @@ router.post("/create_playlist", middleware.verifyToken, (req, res) => {
 								helpers
 									.addSongToPlaylist(body.id, req.accessToken, recommendUris[0])
 									.then(() => {
-										res.render("playlist_details");
+										return res.render('playlist_details');
 									});
 							});
 					});
@@ -70,15 +71,27 @@ router.post("/create_playlist", middleware.verifyToken, (req, res) => {
 	}
 });
 
-router.post("/search_autocomplete", middleware.verifyToken, (req, res) => {
-	// Example loop to retrieve artist ID
-	const artistList = req.body.name;
-	for (let i = 0; i < artistList.length; i++) {
-		middleware.getArtistId(req.accessToken, artistList[i]).then((id) => {
-			console.log(id);
-		});
+router.get("/playlist_details", middleware.verifyToken, (req, res) => {
+	if (req.noRefreshToken) {
+		res.redirect("/login");
+	} else {
+		Playlist.findOne({ refreshToken: req.cookies.refreshToken}).sort({ _id: -1 })
+		.then( results => {
+			let playlistOptions = {
+				url: `https://api.spotify.com/v1/playlists/${results.playlistId}/tracks`,
+				headers: {
+					Authorization: "Bearer " + req.accessToken,
+					"Content-Type": "application/json",
+				},
+				json: true,
+			}
+
+			request.get(playlistOptions, (error, response, body) => {
+				let trackDetails = body.items;
+				res.render("playlist_details", { data: trackDetails })
+			})
+		})
 	}
-	res.render("home");
 });
 
 module.exports = router;

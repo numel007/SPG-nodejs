@@ -139,7 +139,7 @@ $(document).ready(function () {
 				return this.value;
 			})
 			.get();
-		console.log(artistNames);
+
 		$.ajax({
 			type: "POST",
 			url: "/create_playlist",
@@ -148,6 +148,9 @@ $(document).ready(function () {
 				playlistName: playlistName,
 				playlistDescription: playlistDescription,
 			},
+			success: function (data) {
+				window.location.href = "/playlist_details";
+			}
 		});
 	});
 });

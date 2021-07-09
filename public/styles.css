@@ -1,14 +1,59 @@
+body{
+    /* background-image: linear-gradient(to bottom, rgba(0,0,0,0.6) 0%,rgba(0,0,0,0.6) 100%), url(/images/background.jpeg); */
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-attachment: fixed;
+    background-image: url(/images/background.jpeg);
+    box-shadow: inset 0 0 0 1000px rgba(0,0,0,0.5);
+}
+
+.navbar a{
+    color: gray;
+}
+
+.navbar a:hover{
+    color:green;
+}
+
+h1{
+    color:white;
+}
+
+.tracks{
+    color: white;
+}
+
+/* Set homepage get started button to black font */
+.wrapper > .jumbotron > .btn-success{
+    color: black;
+}
+
+/* Vertically align jumbotron */
+.wrapper {
+    position: relative;
+    height: 100vh;
+    color:white;
+}
+
+/* Vertically align jumbotron */
+.jumbotron {
+    position: absolute;
+    top: 30%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
 /* Set autocomplete dropdown menu properties */
 .ui-menu {
     list-style: none;
-    background-color: rgba(248, 248, 248, 0.9);
+    background-color: rgba(105, 105, 105, 0.85);
     position: absolute;
     box-shadow: 0 2px 3px 0px;
     border-radius: 3px;
     border: 1px solid #FAFAFA;
     z-index: 100;
     overflow-y: auto;
-    padding: 5px 0;
+    padding: 0;
     max-height: 500px;
     font-size: 16px;
 
@@ -16,8 +61,8 @@
 
 .ui-menu .ui-menu-item{
     margin: none;
-    padding-left: 5px;
-    padding-right:5px;
+    padding-left: 0px;
+    padding-right:0px;
 }
 
 /* Set color when hovering over items in autocomplete dropdown menu */
