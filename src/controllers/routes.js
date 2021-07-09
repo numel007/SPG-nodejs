@@ -60,7 +60,7 @@ router.post("/create_playlist", middleware.verifyToken, (req, res) => {
 								helpers
 									.addSongToPlaylist(body.id, req.accessToken, recommendUris[0])
 									.then(() => {
-										res.render("playlist_details");
+										return res.render('playlist_details');
 									});
 							});
 					});
