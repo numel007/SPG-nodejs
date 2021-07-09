@@ -1,26 +1,34 @@
-<script>
-    const accessToken = '{{ accessToken }}'
-</script>
+<head>
+    <script>
+        const accessToken = '{{ accessToken }}'
+    </script>
+    <script src="autocomplete.js"></script>
+</head>
 
-<h1>CREATE PLAYLIST</h1>
+<div class="wrapper">
+    <div class="jumbotron text-center">
+        <h1>CREATE PLAYLIST</h1>
 
-<form class="form">
+        <form class="form">
 
-    <legend>New playlist form</legend>
+            <legend>Enter playlist information</legend>
 
-    <label for="name">Playlist name</label>
-    <input type="text" class="playlist-name" name="name" id="name" placeholder="Name">
+            <label for="name">Playlist name</label>
+            <input type="text" class="playlist-name" name="name" id="name" placeholder="Name">
 
-    <label for="description">Playlist description</label>
-    <input type="text" class="playlist-description" name="description" id="description"
-        placeholder="playlist description">
-
-    <button type="submit" id="submit-button" class="btn btn-primary">Create playlist!</button>
+            <label for="description">Playlist description</label>
+            <input type="text" class="playlist-description" name="description" id="description"
+                placeholder="Description">
 
 
-    <h2>Seed Artists</h2>
-    <div><input type="text" id="first-form" name="artist" placeholder="Enter artist"></div>
 
-</form>
+            <h2>Find Artists</h2>
+            <div><input type="text" id="first-form" name="artist" placeholder="Enter artist"></div>
 
-<button type="submit" class="new-field btn btn-secondary btn-sm">Add Another Artist</button>
+        </form>
+
+        <button type="submit" class="new-field btn btn-secondary btn-sm">Add Another Artist</button>
+        <button type="submit" id="submit-button" class="btn btn-success btn-sm">Create playlist!</button>
+
+    </div>
+</div>
