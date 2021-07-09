@@ -69,16 +69,9 @@ auth.get("/callback", (req, res) => {
           console.log(body);
         });
 
-        // we can also pass the token to the browser to make requests from there
-        // res.redirect(
-        //   "/#" +
-        //     `?access_token=${access_token}` +
-        //     `&refresh_token=${refresh_token}`
-        // );
-        console.log("rendering login");
-        res.render("login");
+        res.redirect("/create_playlist");
       } else {
-        res.render("error");
+          res.render("error");
       }
     });
   }
