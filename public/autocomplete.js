@@ -5,16 +5,16 @@ $(document).ready(function () {
 	$(".new-field").on("click", function (e) {
 		e.preventDefault();
 
-		let wrapper = `.artist-search-${fieldCounter}`
+		let wrapper = `#artist-search-${fieldCounter}`
 
 		if (fieldCounter < 5) {
 			$(".form").append(
-				'<div><input type="text" class="artist-search-' + fieldCounter + '" placeholder="Enter artist"><a href="#" class="delete-field btn btn-danger btn-sm">Remove</a></div>'
+				'<div><input type="text" id="artist-search-' + fieldCounter + '" class="artist-search" placeholder="Enter artist"><a href="#" class="delete-field btn btn-danger btn-sm">Remove</a></div>'
 			);
 			fieldCounter ++
 		}
 
-		$(".artist-search-1, .artist-search-2, .artist-search-3, .artist-search-4").autocomplete({
+		$("#artist-search-1, #artist-search-2, #artist-search-3, #artist-search-4").autocomplete({
 			source: function (req, res) {
 				$.ajax({
 					type: "GET",
