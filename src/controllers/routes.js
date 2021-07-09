@@ -41,7 +41,8 @@ router.post("/create_playlist", middleware.verifyToken, (req, res) => {
 			let newPlaylist = new Playlist({
 				playlistId: body.id,
 				userId: req.user_id,
-				refreshToken: req.accessToken,
+				accessToken: req.accessToken,
+				refreshToken: req.cookies.refreshToken,
 				name: body.name,
 				description: body.description,
 				collaborative: body.collaborative,
@@ -67,6 +68,30 @@ router.post("/create_playlist", middleware.verifyToken, (req, res) => {
 				});
 			});
 		});
+	}
+});
+
+router.get("/playlist_details", middleware.verifyToken, (req, res) => {
+	if (req.noRefreshToken) {
+		res.redirect("/login");
+	} else {
+		Playlist.findOne({ refreshToken: req.cookies.refreshToken}).sort({ _id: -1 })
+		.then( results => {
+			console.log(results.playlistId)
+			let playlistOptions = {
+				url: `https://api.spotify.com/v1/playlists/${results.playlistId}/tracks`,
+				headers: {
+					Authorization: "Bearer " + req.accessToken,
+					"Content-Type": "application/json",
+				},
+				json: true,
+			}
+
+			request.get(playlistOptions, (error, response, body) => {
+				let trackDetails = body.items;
+				res.render("playlist_details", { data: trackDetails })
+			})
+		})
 	}
 });
 
