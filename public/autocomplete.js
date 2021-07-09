@@ -5,14 +5,16 @@ $(document).ready(function () {
 	$(".new-field").on("click", function (e) {
 		e.preventDefault();
 
+		let wrapper = `.artist-search-${fieldCounter}`
+
 		if (fieldCounter < 5) {
 			$(".form").append(
-				'<div><input type="text" class="artist-search" placeholder="Enter artist"><a href="#" class="delete-field">Remove</a></div>'
+				'<div><input type="text" class="artist-search-' + fieldCounter + '" placeholder="Enter artist"><a href="#" class="delete-field btn btn-danger btn-sm">Remove</a></div>'
 			);
 			fieldCounter ++
 		}
 
-		$(".artist-search").autocomplete({
+		$(".artist-search-1, .artist-search-2, .artist-search-3, .artist-search-4").autocomplete({
 			source: function (req, res) {
 				$.ajax({
 					type: "GET",
@@ -33,6 +35,7 @@ $(document).ready(function () {
 								return {
 									label: item.name,
 									value: item.name,
+									thumbnail: item.images[0]
 								};
 							})
 						);
@@ -40,6 +43,23 @@ $(document).ready(function () {
 				});
 			},
 		});
+
+		$(wrapper).data("ui-autocomplete")._renderItem = function (ul, item) {
+			let thumbnail = ''
+	
+			if (item.thumbnail) {
+				thumbnail = item.thumbnail.url
+			} else {
+				thumbnail = 'https://i.imgur.com/KPquSAA.png'
+			}
+	
+			return $('<li/>', {'data-value': item.label})
+					.append($('<a/>', {href: "#"})
+					.append($('<img/>', {src: thumbnail, alt: item.label}))
+					.append(item.label))
+					.appendTo(ul);
+		};
+		
 	});
 
 	// Autocomplete for first input field
@@ -64,6 +84,7 @@ $(document).ready(function () {
 							return {
 								label: item.name,
 								value: item.name,
+								thumbnail: item.images[0]
 							};
 						})
 					);
@@ -71,6 +92,22 @@ $(document).ready(function () {
 			});
 		},
 	});
+
+	// Add thumbnails to autocomplete results in the first input field
+	$("#first-form").data("ui-autocomplete")._renderItem = function (ul, item) {
+		let thumbnail = ''
+
+		if (item.thumbnail) {
+			thumbnail = item.thumbnail.url
+		} else {
+			thumbnail = 'https://i.imgur.com/KPquSAA.png'
+		}
+
+		return $('<li/>', {'data-value': item.label})
+				.append($('<img/>', {src: thumbnail, alt: item.label}))
+				.append(item.label)
+				.appendTo(ul);
+	};
 
 	// Delete field
 	$(".form").on("click", ".delete-field", function (e) {
