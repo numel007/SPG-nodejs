@@ -77,7 +77,6 @@ router.get("/playlist_details", middleware.verifyToken, (req, res) => {
 	} else {
 		Playlist.findOne({ refreshToken: req.cookies.refreshToken}).sort({ _id: -1 })
 		.then( results => {
-			console.log(results.playlistId)
 			let playlistOptions = {
 				url: `https://api.spotify.com/v1/playlists/${results.playlistId}/tracks`,
 				headers: {
@@ -93,17 +92,6 @@ router.get("/playlist_details", middleware.verifyToken, (req, res) => {
 			})
 		})
 	}
-});
-
-router.post("/search_autocomplete", middleware.verifyToken, (req, res) => {
-	// Example loop to retrieve artist ID
-	const artistList = req.body.name;
-	for (let i = 0; i < artistList.length; i++) {
-		middleware.getArtistId(req.accessToken, artistList[i]).then((id) => {
-			console.log(id);
-		});
-	}
-	res.render("home");
 });
 
 module.exports = router;
