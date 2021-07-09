@@ -149,7 +149,11 @@ $(document).ready(function () {
 				playlistDescription: playlistDescription,
 			},
 			success: function (data) {
-				window.location.href = "/playlist_details";
+				// window.location.href = "/playlist_details";
+				$.each(data, function (index, value) {
+					console.log(value.track.name)
+					$('.tracks').append($('<p></p').html(value.track.name +'-'+value.track.album.name))
+				})
 			}
 		});
 	});
