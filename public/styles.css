@@ -1,93 +1,111 @@
-body{
-    /* background-image: linear-gradient(to bottom, rgba(0,0,0,0.6) 0%,rgba(0,0,0,0.6) 100%), url(/images/background.jpeg); */
-    background-repeat: no-repeat;
-    background-size: cover;
-    background-attachment: fixed;
-    background-image: url(/images/background.jpeg);
-    box-shadow: inset 0 0 0 1000px rgba(0,0,0,0.5);
+body {
+	/* background-image: linear-gradient(to bottom, rgba(0,0,0,0.6) 0%,rgba(0,0,0,0.6) 100%), url(/images/background.jpeg); */
+	background-repeat: no-repeat;
+	background-size: cover;
+	background-attachment: fixed;
+	background-image: url(/images/background.jpeg);
+	box-shadow: inset 0 0 0 1000px rgba(0, 0, 0, 0.5);
 }
 
-.navbar a{
-    color: gray;
+.navbar a {
+	color: gray;
 }
 
-.navbar a:hover{
-    color:green;
+.navbar a:hover {
+	color: green;
 }
 
-h1{
-    color:white;
+h1 {
+	color: white;
 }
 
-.tracks{
-    color: white;
+.tracks-table {
+	color: white;
+	border: 2px solid white;
+	position: absolute;
+	top: 25%;
+	float: none;
+}
+
+th,
+td {
+	border: 1px solid white;
+}
+
+th.table-data {
+	padding: 10px;
+}
+
+th.thumbnail-header {
+	border: 0px;
 }
 
 /* Set homepage get started button to black font */
-.wrapper > .jumbotron > .btn-success{
-    color: black;
+.wrapper > .jumbotron > .btn-success {
+	color: black;
 }
 
 /* Vertically align jumbotron */
 .wrapper {
-    position: relative;
-    height: 100vh;
-    color:white;
+	position: relative;
+	height: 100vh;
+	color: white;
+}
+
+.jumbotron.create-playlist {
+	left: 25%;
 }
 
 /* Vertically align jumbotron */
 .jumbotron {
-    position: absolute;
-    top: 30%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+	position: absolute;
+	top: 25%;
 }
 
 /* Set autocomplete dropdown menu properties */
 .ui-menu {
-    list-style: none;
-    background-color: rgba(105, 105, 105, 0.85);
-    position: absolute;
-    box-shadow: 0 2px 3px 0px;
-    border-radius: 3px;
-    border: 1px solid #FAFAFA;
-    z-index: 100;
-    overflow-y: auto;
-    padding: 0;
-    max-height: 500px;
-    font-size: 16px;
-
+	list-style: none;
+	background-color: rgba(105, 105, 105, 0.85);
+	position: absolute;
+	box-shadow: 0 2px 3px 0px;
+	border-radius: 3px;
+	border: 1px solid #fafafa;
+	z-index: 100;
+	overflow-y: auto;
+	padding: 0;
+	max-height: 500px;
+	font-size: 16px;
 }
 
-.ui-menu .ui-menu-item{
-    margin: none;
-    padding-left: 0px;
-    padding-right:0px;
+.ui-menu .ui-menu-item {
+	margin: none;
+	padding-left: 0px;
+	padding-right: 0px;
 }
 
 /* Set color when hovering over items in autocomplete dropdown menu */
-.ui-menu .ui-menu-item:hover{
-    background-color: gray;
+.ui-menu .ui-menu-item:hover {
+	background-color: gray;
 }
 
 /* Set autocomplete dropdown thumbnail size */
-.ui-menu img{
-    width: 40px;
-    height: 40px;
-    border-radius: 3px;
+.ui-menu img {
+	width: 40px;
+	height: 40px;
+	border-radius: 3px;
 }
 
-.ui-menu a{
-    color: black;
-    text-decoration: none;
+.ui-menu a {
+	color: black;
+	text-decoration: none;
 }
 
 /* Hide autocomplete selection helpers */
-.ui-helper-hidden-accessible{
-    display: none;
+.ui-helper-hidden-accessible {
+	display: none;
 }
 
 /* Delete button for extra artist input fields */
-.delete-field{
-    font-size: 10px;
+.delete-field {
+	font-size: 10px;
 }

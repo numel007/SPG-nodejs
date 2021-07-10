@@ -122,6 +122,7 @@ $(document).ready(function () {
 	// Submit artist queries
 	$("#submit-button").on("click", function (e) {
 		e.preventDefault();
+		// SHOW HIDDEN GIF
 		let playlistName = "";
 		let playlistDescription = "";
 
@@ -153,6 +154,7 @@ $(document).ready(function () {
 			},
 			success: function (data) {
 				// window.location.href = "/playlist_details";
+				// HIDE LOADING GIF
 				$.each(data, function (index, value) {
 					console.log(value.track.name);
 					$(".tracks-table").append(
@@ -160,11 +162,14 @@ $(document).ready(function () {
 							"<td><img src=" +
 								value.track.album.images[2].url +
 								"></img></td>" +
-								"<td>" +
+								"<td class='table-data'>" +
 								value.track.album.name +
 								"</td>" +
-								"<td>" +
+								"<td class='table-data'>" +
 								value.track.artists[0].name +
+								"</td>" +
+								"<td class='table-data'>" +
+								value.track.album.name +
 								"</td>"
 						)
 					);
