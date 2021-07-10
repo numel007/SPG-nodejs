@@ -8,7 +8,7 @@
 <div class="container-fluid">
     <div class="row">
         <div class="wrapper col-4">
-            <div class="jumbotron create-playlist">
+            <div class="jumbotron create-playlist-column">
                 <h1>Create your playlist!</h1>
 
                 <form class="form">
@@ -35,15 +35,18 @@
 
             </div>
         </div>
-        <div class="col-8">
-            <table class="tracks-table">
-                <tr>
-                    <th class="thumbnail-header"></th>
-                    <th>Name</th>
-                    <th>Artist</th>
-                    <th>Album</th>
-                </tr>
-            </table>
+        <div class="col-8 d-flex justify-content-center">
+            <div class="playlist-column">
+                <h1 class="text-center">Your new playlist</h1>
+                <table class="tracks-table">
+                    <tr>
+                        <th class="thumbnail-header"></th>
+                        <th>Name</th>
+                        <th>Artist</th>
+                        <th>Album</th>
+                    </tr>
+                </table>
+            </div>
         </div>
     </div>
 </div>

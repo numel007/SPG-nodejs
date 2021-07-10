@@ -19,11 +19,14 @@ h1 {
 	color: white;
 }
 
+div.playlist-column {
+	position: absolute;
+	top: 15%;
+}
+
 .tracks-table {
 	color: white;
 	border: 2px solid white;
-	position: absolute;
-	top: 25%;
 	float: none;
 }
 
@@ -52,14 +55,14 @@ th.thumbnail-header {
 	color: white;
 }
 
-.jumbotron.create-playlist {
+.jumbotron.create-playlist-column {
 	left: 25%;
 }
 
 /* Vertically align jumbotron */
 .jumbotron {
 	position: absolute;
-	top: 25%;
+	top: 15%;
 }
 
 /* Set autocomplete dropdown menu properties */
