@@ -9,14 +9,14 @@ $(document).ready(function () {
 
 		if (fieldCounter < 5) {
 			$(".form").append(
-				'<div><input type="text" id="artist-search-' +
-					fieldCounter +
-					'" class="artist-search" placeholder="Enter artist"><a href="#" class="delete-field btn btn-danger btn-sm">Remove</a></div>'
+				`<div>Artist ${
+					fieldCounter + 1
+				} <input type="text" id="artist-search-${fieldCounter}" class="artist-search" placeholder=""><a href="#" class="delete-field btn btn-danger btn-sm">Remove</a></div>`
 			);
 			fieldCounter++;
 		}
 
-		$("#artist-search-1, #artist-search-2, #artist-search-3, #artist-search-4").autocomplete({
+		$("#artist-search-2, #artist-search-3, #artist-search-4, #artist-search-5").autocomplete({
 			source: function (req, res) {
 				$.ajax({
 					type: "GET",
@@ -155,8 +155,13 @@ $(document).ready(function () {
 			success: function (data) {
 				// window.location.href = "/playlist_details";
 				// HIDE LOADING GIF
+				$(".playlist-column").append(
+					$(
+						"<h1 class='text-center'>Your new playlist</h1><table class='tracks-table'><tr><th class='thumbnail-header'></th><th>Name</th><th>Artist</th><th>Album</th></tr>"
+					)
+				);
+
 				$.each(data, function (index, value) {
-					console.log(value.track.name);
 					$(".tracks-table").append(
 						$("<tr></tr>").html(
 							"<td><img src=" +
