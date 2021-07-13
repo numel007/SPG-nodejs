@@ -3,6 +3,8 @@ const request = require("request");
 const client_id = process.env.CLIENT_ID;
 const client_secret = process.env.CLIENT_SECRET;
 
+const Playlist = require("./models/playlist");
+
 const getRecommendations = (seedString, accessToken) => {
 	return new Promise((resolve, reject) => {
 		recommendationsOptions = {
@@ -109,9 +111,34 @@ const clearPlaylist = (playlistId, accessToken) => {
 	});
 };
 
+const getCurrentPlaylistDetails = (accessToken, refreshToken) => {
+	return new Promise((resolve, reject) => {
+		Playlist.findOne({ refreshToken: refreshToken}).sort({ _id: -1 })
+		.then( result => {
+			let playlistOptions = {
+				url: `https://api.spotify.com/v1/playlists/${result.playlistId}/tracks`,
+				headers: {
+					Authorization: "Bearer " + accessToken,
+					"Content-Type": "application/json",
+				},
+				json: true,
+			}
+	
+			request.get(playlistOptions, (error, response, body) => {
+				if (response.statusCode === 200) {
+					resolve(body.items);
+				} else {
+					reject(body);
+				}
+			})
+		})
+	})
+}
+
 module.exports = {
 	getRecommendations: getRecommendations,
 	getPlaylistURIs: getPlaylistURIs,
 	clearPlaylist: clearPlaylist,
 	addSongToPlaylist: addSongToPlaylist,
+	getCurrentPlaylistDetails: getCurrentPlaylistDetails,
 };

@@ -5,30 +5,41 @@
     <script src="autocomplete.js"></script>
 </head>
 
-<div class="wrapper">
-    <div class="jumbotron text-center">
-        <h1>CREATE PLAYLIST</h1>
+<div class="container-fluid">
+    <div class="row">
+        <div class="wrapper col-4">
+            <div class="jumbotron create-playlist-column">
+                <h1>Create your playlist!</h1>
 
-        <form class="form">
+                <form class="form">
 
-            <legend>Enter playlist information</legend>
+                    <label for="name">Playlist name</label>
+                    <input type="text" class="playlist-name" name="name" id="name" placeholder="Name">
+                    <div class="w-100"></div>
 
-            <label for="name">Playlist name</label>
-            <input type="text" class="playlist-name" name="name" id="name" placeholder="Name">
-
-            <label for="description">Playlist description</label>
-            <input type="text" class="playlist-description" name="description" id="description"
-                placeholder="Description">
+                    <label for="description">Description &nbsp;&nbsp;</label>
+                    <input type="text" class="playlist-description" name="description" id="description"
+                        placeholder="Description">
+                    <div class="w-100"></div>
 
 
 
-            <h2>Find Artists</h2>
-            <div><input type="text" id="first-form" class="artist-search" name="artist" placeholder="Enter artist"></div>
+                    <h2>Enter seed artists</h2>
+                    <div>Artist 1
+                        <input type="text" id="first-form" class="artist-search" name="artist" placeholder="">
+                    </div>
 
-        </form>
+                </form>
 
-        <button type="submit" class="new-field btn btn-secondary btn-sm">Add Another Artist</button>
-        <button type="submit" id="submit-button" class="btn btn-success btn-sm">Create playlist!</button>
+                <button type="submit" class="new-field btn btn-secondary btn-sm">Add Another Artist</button>
+                <div class="w-100"></div>
+                <button type="submit" id="submit-button" class="btn btn-success btn-sm">Create playlist!</button>
 
+            </div>
+        </div>
+        <div class="col-8 d-flex justify-content-center">
+            <div class="playlist-column">
+            </div>
+        </div>
     </div>
 </div>
