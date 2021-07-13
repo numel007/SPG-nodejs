@@ -33,21 +33,23 @@ Spotify Playlist Generator (SPG) creates Spotify playlists from user input seed 
 
 1. Create Spotify developer account
 
-    - Visit [this](#https://developer.spotify.com/dashboard) link and Create An App.
+    - Visit [this](https://developer.spotify.com/dashboard) link and create an app.
     - Enter your Application Name and Application Description and click Create.
     - Click on your newly created app within the dashboard to find your **Client ID** and **Client Secret**.
+    - Set redirect uris to your domain's callback (ex. http://localhost:3000/callback)
     - Open your `.env` file and set `CLIENT_ID=` and `CLIENT_SECRET=` to the Client ID and Client Secret found on your dashboard.
 
-1. Connect MongoDB
+1. Connect MongoDB & your domain
 
     - Open your `.env` file and set your MongoDB URI to the right of `MONGO_URI=`.
+    - In `spg/src/controllers/auth.js` set `redirect_uri` to your domain's callback. (This is what you entered in the Spotify dashboard for redirect uri.)
 
 1. Run the application!
     - `npm start`
 
 # Releases
 
--   **Current release**: [V1](http://spg.caprover.benchan.tech/)
+-   **Current release**: [V1.0](http://spg.caprover.benchan.tech/)
 -   **Next planned release**: V1.3 - 7/30/21
     -   Styling updates
     -   Prototype implementation of automatic playlist generation
