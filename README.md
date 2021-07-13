@@ -63,4 +63,4 @@ Spotify Playlist Generator (SPG) creates Spotify playlists from user input seed 
 
 ### License
 
-`SPG` is available under the MIT license. See the [LICENSE]() for more info.
+`SPG` is available under the MIT license. See the [LICENSE](https://github.com/numel007/SPG-nodejs/blob/deployment/LICENSE) for more info.
