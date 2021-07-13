@@ -7,7 +7,7 @@ const middleware = require("../middleware");
 // let cors = require("cors");
 let client_id = process.env.CLIENT_ID;
 let client_secret = process.env.CLIENT_SECRET;
-let redirect_uri = "http://spg.caprover.benchan.tech/callback";
+let redirect_uri = process.env.REDIRECT_URI;
 let stateKey = "spotify_auth_state";
 
 auth.get("/login", (req, res) => {
