@@ -16,7 +16,7 @@ $(document).ready(function () {
 			fieldCounter++;
 		}
 
-		$("#artist-search-2, #artist-search-3, #artist-search-4, #artist-search-5").autocomplete({
+		$("#artist-search-2, #artist-search-3, #artist-search-4, #artist-search-1").autocomplete({
 			source: function (req, res) {
 				$.ajax({
 					type: "GET",
@@ -168,7 +168,7 @@ $(document).ready(function () {
 								value.track.album.images[2].url +
 								"></img></td>" +
 								"<td class='table-data'>" +
-								value.track.album.name +
+								value.track.name +
 								"</td>" +
 								"<td class='table-data'>" +
 								value.track.artists[0].name +
