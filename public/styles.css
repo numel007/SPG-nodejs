@@ -26,6 +26,21 @@ div.playlist-column {
 	top: 10%;
 }
 
+input {
+	margin: 3px;
+	border-radius: 6px;
+}
+
+.btn-secondary {
+	margin: 3px;
+	border-radius: 8px;
+}
+
+.delete-field {
+	border-radius: 200px;
+	transform: scale(0.75);
+}
+
 .tracks-table {
 	color: rgb(211, 211, 211);
 	border: 2px solid white;
@@ -53,7 +68,11 @@ th.thumbnail-header {
 
 /* Set homepage get started button to black font */
 .wrapper > .jumbotron > .btn-success {
-	color: black;
+	background-color: #1db954;
+	color: white;
+	font-size: 1.5em;
+	margin: 3px;
+	border-radius: 8px;
 }
 
 /* Vertically align jumbotron */
