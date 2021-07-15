@@ -98,7 +98,7 @@ const clearPlaylist = (playlistId, accessToken) => {
 					return songArray;
 				}
 			}).catch( error => {
-				console.log(error)
+				resolve(error);
 			})
 			.then((songArray) => {
 				let deleteOptions = {
@@ -235,7 +235,10 @@ const getArtistId = (accessToken, artistList) => {
 				seedString += "," + artistIds[i];
 			}
 			resolve(seedString);
-		});
+		})
+		.catch( error => {
+			reject(error);
+		})
 	});
 };
 
