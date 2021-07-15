@@ -144,6 +144,11 @@ $(document).ready(function () {
 			})
 			.get();
 
+		if (artistNames[0] == '') {
+			$(".jumbotron").append("<p class='error-message'><span style='color: #ff0000'>You must enter at least one artist name!</span></p>");
+			return;
+		}
+
 		$.ajax({
 			type: "POST",
 			url: "/create_playlist",
@@ -153,12 +158,18 @@ $(document).ready(function () {
 				playlistDescription: playlistDescription,
 			},
 			success: function (data) {
-				// window.location.href = "/playlist_details";
 				// HIDE LOADING GIF
 				// Delete old header + table
+				$(".playlist-header").remove();
+				$(".playlist-table-div").remove();
+				$(".error-message").remove();
 
-				// Build new header + table
-				let tableSetup =
+				if (data.error) {
+					$(".jumbotron").append("<p class='error-message'><span style='color: #ff0000'>Error generating playlist. Please try again!</span></p>");
+					$(".jumbotron").append(`<p class='error-message'><span style='color: #ff0000'>Error message: ${data.error}</span></p>`);
+				} else {
+					// Build new header + table
+					let tableSetup =
 					"<h1 class='playlist-header text-center'>Your new playlist</h1>" +
 					"<div class='playlist-table-div'>" +
 					"<table class='tracks-table'>" +
@@ -171,7 +182,7 @@ $(document).ready(function () {
 					"<tbody class='playlist-table-body'></tbody>" +
 					"</table>" +
 					"</div>";
-				$(".playlist-column").append($(tableSetup));
+				$(".playlist-column").append(tableSetup);
 
 				$.each(data, function (index, value) {
 					$(".playlist-table-body").append(
@@ -185,6 +196,7 @@ $(document).ready(function () {
 						)
 					);
 				});
+				}
 			},
 		});
 	});

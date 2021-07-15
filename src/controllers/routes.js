@@ -42,31 +42,8 @@ router.post("/create_playlist", middleware.verifyToken, async (req, res) => {
 			return res.send(playlistDetails)
 		} catch (error) {
 			console.log(error)
-			return res.send(error)
+			return res.send({ error: error})
 		}
-	}
-});
-
-router.get("/playlist_details", middleware.verifyToken, (req, res) => {
-	if (req.noRefreshToken) {
-		res.redirect("/login");
-	} else {
-		Playlist.findOne({ refreshToken: req.cookies.refreshToken}).sort({ _id: -1 })
-		.then( results => {
-			let playlistOptions = {
-				url: `https://api.spotify.com/v1/playlists/${results.playlistId}/tracks`,
-				headers: {
-					Authorization: "Bearer " + req.accessToken,
-					"Content-Type": "application/json",
-				},
-				json: true,
-			}
-
-			request.get(playlistOptions, (error, response, body) => {
-				let trackDetails = body.items;
-				res.render("playlist_details", { data: trackDetails })
-			})
-		})
 	}
 });
 
