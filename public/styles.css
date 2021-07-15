@@ -42,24 +42,25 @@ input {
 }
 
 thead {
+	position: sticky;
+	top: 0;
 	text-align: center;
-	background: linear-gradient(45deg, rgba(96, 44, 130, 0), rgba(73, 160, 157, 0.75));
+	background: linear-gradient(45deg, rgba(96, 44, 130, 1), rgba(73, 160, 157, 1));
 }
 
 th {
 	padding: 10px;
 }
 
-td.table-data {
-	padding-left: 10px;
-	/* padding-bottom: 12px;
-	padding-top: 12px; */
-	max-width: 275px;
-	vertical-align: center;
+thead th {
+	position: sticky;
+	top: 0;
 }
 
-tr:hover {
-	background-color: rgba(255, 255, 255, 0.1);
+td.table-data {
+	padding-left: 10px;
+	max-width: 275px;
+	vertical-align: center;
 }
 
 .delete-field {
@@ -83,15 +84,22 @@ div.playlist-column {
 
 .playlist-table-div {
 	height: 75vh;
-	/* overflow: hidden; */
+	box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+	overflow: hidden;
 	overflow-y: scroll;
+	scrollbar-color: yellow blue;
+	scrollbar-color: #87ceeb #ff5621;
+	scrollbar-color: auto;
 }
 
 .tracks-table {
 	float: none;
 	background-color: #ffffff2c;
-	box-shadow: 10px 10px 8px 10px #888888;
 	color: white;
+}
+
+tbody.playlist-table-body tr:hover {
+	background-color: rgba(255, 255, 255, 0.1);
 }
 
 /* Set homepage get started button to black font */

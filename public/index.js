@@ -155,8 +155,11 @@ $(document).ready(function () {
 			success: function (data) {
 				// window.location.href = "/playlist_details";
 				// HIDE LOADING GIF
+				// Delete old header + table
+
+				// Build new header + table
 				let tableSetup =
-					"<h1 class='text-center'>Your new playlist</h1>" +
+					"<h1 class='playlist-header text-center'>Your new playlist</h1>" +
 					"<div class='playlist-table-div'>" +
 					"<table class='tracks-table'>" +
 					"<thead>" +
