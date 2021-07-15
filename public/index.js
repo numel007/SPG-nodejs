@@ -144,6 +144,11 @@ $(document).ready(function () {
 			})
 			.get();
 
+		if (artistNames[0] == '') {
+			$(".jumbotron").append("<p class='error-message'><span style='color: #ff0000'>You must enter at least one artist name!</span></p>");
+			return;
+		}
+
 		$.ajax({
 			type: "POST",
 			url: "/create_playlist",
@@ -153,32 +158,45 @@ $(document).ready(function () {
 				playlistDescription: playlistDescription,
 			},
 			success: function (data) {
-				// window.location.href = "/playlist_details";
 				// HIDE LOADING GIF
-				$(".playlist-column").append(
-					$(
-						"<h1 class='text-center'>Your new playlist</h1><table class='tracks-table'><tr><th class='thumbnail-header'></th><th>Name</th><th>Artist</th><th>Album</th></tr>"
-					)
-				);
+				// Delete old header + table
+				$(".playlist-header").remove();
+				$(".playlist-table-div").remove();
+				$(".error-message").remove();
+
+				if (data.error) {
+					$(".jumbotron").append("<p class='error-message'><span style='color: #ff0000'>Error generating playlist. Please try again!</span></p>");
+					$(".jumbotron").append(`<p class='error-message'><span style='color: #ff0000'>Error message: ${data.error}</span></p>`);
+				} else {
+					// Build new header + table
+					let tableSetup =
+					"<h1 class='playlist-header text-center'>Your new playlist</h1>" +
+					"<div class='playlist-table-div'>" +
+					"<table class='tracks-table'>" +
+					"<thead>" +
+					"<th></th>" +
+					"<th>Name</th>" +
+					"<th>Artist</th>" +
+					"<th>Album</th>" +
+					"</thead>" +
+					"<tbody class='playlist-table-body'></tbody>" +
+					"</table>" +
+					"</div>";
+				$(".playlist-column").append(tableSetup);
 
 				$.each(data, function (index, value) {
-					$(".tracks-table").append(
+					$(".playlist-table-body").append(
 						$("<tr></tr>").html(
-							"<td><img src=" +
-								value.track.album.images[2].url +
-								"></img></td>" +
-								"<td class='table-data'>" +
-								value.track.name +
-								"</td>" +
-								"<td class='table-data'>" +
-								value.track.artists[0].name +
-								"</td>" +
-								"<td class='table-data'>" +
-								value.track.album.name +
-								"</td>"
+							`<td>
+								<img src=${value.track.album.images[2].url}></img>
+							</td>` +
+								`<td class='table-data'>${value.track.name}</td>` +
+								`<td class='table-data'>${value.track.artists[0].name}</td>` +
+								`<td class='table-data'>${value.track.album.name}</td>`
 						)
 					);
 				});
+				}
 			},
 		});
 	});

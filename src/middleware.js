@@ -84,49 +84,7 @@ const getAccessToken = (refreshToken) => {
 	});
 };
 
-// Gets artist ID based on name
-const getArtistId = (accessToken, artistList) => {
-	return new Promise((resolve, reject) => {
-		let promises = [];
-
-		for (let i = 0; i < artistList.length; i++) {
-			promises.push(
-				new Promise((resolve, reject) => {
-					const authOptions = {
-						url: "https://api.spotify.com/v1/search",
-						headers: {
-							Authorization: "Bearer " + accessToken,
-						},
-						qs: {
-							type: "artist",
-							limit: 1,
-							q: artistList[i],
-						},
-						json: true,
-					};
-
-					request.get(authOptions, (err, res, body) => {
-						if (res.statusCode === 200) {
-							resolve(body.artists.items[0].id);
-						} else {
-							reject(err);
-						}
-					});
-				})
-			);
-		}
-		Promise.all(promises).then((artistIds) => {
-			seedString = `${artistIds[0]}`;
-			for (let i = 1; i < artistIds.length; i++) {
-				seedString += "," + artistIds[i];
-			}
-			resolve(seedString);
-		});
-	});
-};
-
 module.exports = {
 	ranString: ranString,
 	verifyToken: verifyToken,
-	getArtistId: getArtistId,
 };

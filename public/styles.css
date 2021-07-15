@@ -1,10 +1,31 @@
+/* Global Modifiers */
 body {
 	position: relative;
 	background-color: rgb(0, 0, 0);
-	background: url(/images/Spotify_Icon_RGB_Green.png) no-repeat center fixed,
-		linear-gradient(rgb(100, 0, 167), rgb(0, 0, 0));
-	background-size: 200px;
+	background: linear-gradient(45deg, #49a09d, #5f2c82);
 	background-attachment: fixed;
+	font-family: "Sriracha", cursive;
+}
+
+.spotify-bg {
+	pointer-events: none;
+	width: 200px;
+	height: auto;
+	position: fixed;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	z-index: -1;
+}
+
+img.github-icon {
+	height: 23px;
+	width: auto;
+	padding-left: 0.5rem;
+}
+
+.navbar {
+	padding: 16px 20px 16px 20px;
 }
 
 .navbar a {
@@ -21,11 +42,6 @@ h1 {
 	color: white;
 }
 
-div.playlist-column {
-	position: absolute;
-	top: 10%;
-}
-
 input {
 	margin: 3px;
 	border-radius: 6px;
@@ -34,39 +50,75 @@ input {
 .btn-secondary {
 	margin: 3px;
 	border-radius: 8px;
+	background-color: rgb(109, 109, 109);
+	box-shadow: 2px 2px 2px 2px #00000050;
+}
+
+thead {
+	position: sticky;
+	top: 0;
+	text-align: center;
+	background: linear-gradient(45deg, rgba(73, 160, 157, 1), rgba(96, 44, 130, 1));
+}
+
+th {
+	padding: 10px;
+}
+
+thead th {
+	position: sticky;
+	top: 0;
+}
+
+td.table-data {
+	padding-left: 10px;
+	max-width: 275px;
+	vertical-align: center;
 }
 
 .delete-field {
 	border-radius: 200px;
 	transform: scale(0.75);
+	background-color: rgb(221, 0, 0);
+}
+
+/* Create Playlist Page */
+.jumbotron.create-playlist-column {
+	position: relative;
+	left: 30%;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+/* Playlist Table */
+div.playlist-column {
+	position: absolute;
+	top: 10%;
+}
+
+.playlist-table-div {
+	height: 75vh;
+	box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+	overflow: hidden;
+	overflow-y: scroll;
 }
 
 .tracks-table {
-	color: rgb(211, 211, 211);
-	border: 2px solid white;
 	float: none;
-	background-color: #1f1f1fab;
+	background-color: #ffffff2c;
+	color: white;
 }
 
-th,
-td {
-	border: 1px solid white;
+tbody.playlist-table-body tr:hover {
+	background-color: rgba(255, 255, 255, 0.1);
 }
 
-th {
-	text-align: center;
+/* Homepage Header */
+h1.homepage-header {
+	font-size: 5em;
 }
 
-td.table-data {
-	padding: 10px;
-	max-width: 275px;
-}
-
-th.thumbnail-header {
-	border: 0px;
-}
-
-/* Set homepage get started button to black font */
+/* Button: Homepage Get Started */
 .wrapper > .jumbotron > .btn-success {
 	background-color: #1db954;
 	color: white;
@@ -75,18 +127,39 @@ th.thumbnail-header {
 	border-radius: 8px;
 }
 
+/* Button: Homepage -> create_playlist  */
+a.btn.redirect-create-playlist {
+	background-color: #1baf4f;
+	color: white;
+	font-size: 1.75em;
+	margin: 3px;
+	border-radius: 8px;
+	box-shadow: 2px 2px 3px 3px rgba(73, 73, 73, 0.5);
+}
+
+a.btn.redirect-create-playlist:hover {
+	background-color: #1aa54b;
+}
+
+/* Create playlist submit button */
+.create-playlist-submit {
+	background-color: #1db954;
+	color: white;
+	font-size: 1.25em;
+	margin: 3px;
+	border-radius: 8px;
+	box-shadow: 1px 1px 1px 2px rgba(78, 78, 78, 0.5);
+}
+
+.create-playlist-submit:hover {
+	background-color: #1aa54b;
+}
+
 /* Vertically align jumbotron */
 .wrapper {
 	position: relative;
 	height: 100vh;
 	color: white;
-}
-
-.jumbotron.create-playlist-column {
-	position: relative;
-	left: 30%;
-	margin-left: auto;
-	margin-right: auto;
 }
 
 /* Vertically align jumbotron */
@@ -98,7 +171,7 @@ th.thumbnail-header {
 /* Set autocomplete dropdown menu properties */
 .ui-menu {
 	list-style: none;
-	background-color: rgba(105, 105, 105, 0.85);
+	background-color: #c9c9c9de;
 	position: absolute;
 	box-shadow: 0 2px 3px 0px;
 	border-radius: 3px;
@@ -112,13 +185,15 @@ th.thumbnail-header {
 
 .ui-menu .ui-menu-item {
 	margin: none;
-	padding-left: 0px;
-	padding-right: 0px;
+}
+
+.ui-menu-item img {
+	padding-right: 5px;
 }
 
 /* Set color when hovering over items in autocomplete dropdown menu */
 .ui-menu .ui-menu-item:hover {
-	background-color: gray;
+	background-color: rgba(255, 255, 255, 0.459);
 }
 
 /* Set autocomplete dropdown thumbnail size */

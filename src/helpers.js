@@ -17,18 +17,19 @@ const getRecommendations = (seedString, accessToken) => {
 		};
 
 		request.get(recommendationsOptions, (err, res, body) => {
-			if (res.statusCode != 200) {
-				reject(err);
+			if (res.statusCode === 200) {
+				let recommendList = body.tracks;
+				let recommendUris = [];
+				let recommendTitles = [];
+	
+				for (let i = 0; i < recommendList.length; i++) {
+					recommendUris.push(recommendList[i].uri);
+					recommendTitles.push(recommendList[i].name);
+				}
+				resolve([recommendUris, recommendTitles]);
+			} else {
+				reject(`getRecommendations helper failed with response: ${res.statusCode}`);
 			}
-			let recommendList = body.tracks;
-			let recommendUris = [];
-			let recommendTitles = [];
-
-			for (let i = 0; i < recommendList.length; i++) {
-				recommendUris.push(recommendList[i].uri);
-				recommendTitles.push(recommendList[i].name);
-			}
-			resolve([recommendUris, recommendTitles]);
 		});
 	});
 };
@@ -45,14 +46,17 @@ const getPlaylistURIs = (playlistId, accessToken) => {
 
 		request.get(playlistOptions, (err, res, body) => {
 			let songsList = body.items;
-
-			if (body.items.length != 0) {
-				for (let i = 0; i < songsList.length; i++) {
-					songURIs.push(songsList[i].track.uri);
+			if (res.statusCode === 200) {
+				if (body.items.length != 0) {
+					for (let i = 0; i < songsList.length; i++) {
+						songURIs.push(songsList[i].track.uri);
+					}
+					resolve(songURIs);
+				} else {
+					resolve(songURIs);
 				}
-				resolve(songURIs);
 			} else {
-				resolve(songURIs);
+				reject(`getPlaylistURIs helper failed with response: ${res.statusCode}`);
 			}
 		});
 	});
@@ -73,8 +77,9 @@ const addSongToPlaylist = (playlistId, accessToken, uriArray) => {
 		request.post(addSongsOptions, (err, res, body) => {
 			if (res.statusCode === 201) {
 				resolve(body);
+			} else {
+				reject(`addSongToPlaylist helper failed with response: ${res.statusCode}`);
 			}
-			reject(err);
 		});
 	});
 };
@@ -92,6 +97,8 @@ const clearPlaylist = (playlistId, accessToken) => {
 				} else {
 					return songArray;
 				}
+			}).catch( error => {
+				resolve(error);
 			})
 			.then((songArray) => {
 				let deleteOptions = {
@@ -105,7 +112,11 @@ const clearPlaylist = (playlistId, accessToken) => {
 				};
 
 				request.delete(deleteOptions, (err, res, body) => {
-					resolve(body);
+					if (res.statusCode === 200) {
+						resolve(body);
+					} else {
+						reject(`clearPlaylist helper failed with response: ${res.statusCode}`);
+					}
 				});
 			});
 	});
@@ -128,12 +139,12 @@ const getCurrentPlaylistDetails = (accessToken, refreshToken) => {
 				if (response.statusCode === 200) {
 					resolve(body.items);
 				} else {
-					reject(body);
+					reject(`getCurrentPlaylistDetails helper failed with response: ${response.statusCode}`)
 				}
 			})
 		})
 	})
-}
+};
 
 /**
  * Creates a playlist on the user's Spotify account and then stores relevant information into database for future use.
@@ -172,14 +183,64 @@ const createPlaylist = (accessToken, refreshToken, userId, playlistName, playlis
 					collaborative: body.collaborative,
 				});
 				
-				newPlaylist.save()
-				resolve(body.id)
+				newPlaylist.save();
+				resolve(body.id);
 			} else {
-				reject(`createPlaylist helper failed with response: ${response.statusCode}`)
+				reject(`createPlaylist helper failed with response: ${response.statusCode}`);
 			}
 		})
 	})
-}
+};
+
+/**
+ * Takes in a list of artists from frontend uses Spotify search api to obtain the ID of each artist.
+ * Converts list items into a string with each ID separated by commas, a syntax required by Spotify's recommendation API.
+ * @param {String} accessToken User's access token
+ * @param {String} artistList List of artists taken from seed artists fields
+ * @returns Artist IDs in string format with commas between each ID
+ */
+const getArtistId = (accessToken, artistList) => {
+	return new Promise((resolve, reject) => {
+		let promises = [];
+
+		for (let i = 0; i < artistList.length; i++) {
+			promises.push(
+				new Promise((resolve, reject) => {
+					const authOptions = {
+						url: "https://api.spotify.com/v1/search",
+						headers: {
+							Authorization: "Bearer " + accessToken,
+						},
+						qs: {
+							type: "artist",
+							limit: 1,
+							q: artistList[i],
+						},
+						json: true,
+					};
+
+					request.get(authOptions, (err, res, body) => {
+						if (res.statusCode === 200) {
+							resolve(body.artists.items[0].id);
+						} else {
+							reject(`getArtistId's request.get failed with response: ${res.statusCode}`);
+						}
+					});
+				})
+			);
+		}
+		Promise.all(promises).then((artistIds) => {
+			seedString = `${artistIds[0]}`;
+			for (let i = 1; i < artistIds.length; i++) {
+				seedString += "," + artistIds[i];
+			}
+			resolve(seedString);
+		})
+		.catch( error => {
+			reject(error);
+		})
+	});
+};
 
 module.exports = {
 	getRecommendations: getRecommendations,
@@ -188,4 +249,5 @@ module.exports = {
 	addSongToPlaylist: addSongToPlaylist,
 	getCurrentPlaylistDetails: getCurrentPlaylistDetails,
 	createPlaylist: createPlaylist,
+	getArtistId: getArtistId,
 };
