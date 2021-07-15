@@ -47,10 +47,15 @@ input {
 	border-radius: 6px;
 }
 
+.focusedInput:focus {
+	outline-width: 0;
+	border: 2px solid rgb(0, 160, 204);
+}
+
 .btn-secondary {
 	margin: 3px;
 	border-radius: 8px;
-	background-color: rgb(109, 109, 109);
+	background-color: rgb(100, 100, 100);
 	box-shadow: 2px 2px 2px 2px #00000050;
 }
 
@@ -84,18 +89,10 @@ td.table-data {
 
 /* Create Playlist Page */
 .jumbotron.create-playlist-column {
-	position: relative;
-	left: 30%;
-	margin-left: auto;
-	margin-right: auto;
+	position: fixed;
 }
 
 /* Playlist Table */
-div.playlist-column {
-	position: absolute;
-	top: 10%;
-}
-
 .playlist-table-div {
 	height: 75vh;
 	box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
