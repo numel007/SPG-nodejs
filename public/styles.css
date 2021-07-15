@@ -1,10 +1,20 @@
+/* Global Modifiers */
 body {
 	position: relative;
 	background-color: rgb(0, 0, 0);
-	background: url(/images/Spotify_Icon_RGB_Green.png) no-repeat center fixed,
-		linear-gradient(rgb(100, 0, 167), rgb(0, 0, 0));
-	background-size: 200px;
+	background: linear-gradient(45deg, #49a09d, #5f2c82);
 	background-attachment: fixed;
+}
+
+.spotify-bg {
+	pointer-events: none;
+	width: 200px;
+	height: auto;
+	position: fixed;
+	top: 50%;
+	left: 50%;
+	margin: -100px 0 -100px 0;
+	z-index: -1;
 }
 
 .navbar a {
@@ -21,11 +31,6 @@ h1 {
 	color: white;
 }
 
-div.playlist-column {
-	position: absolute;
-	top: 10%;
-}
-
 input {
 	margin: 3px;
 	border-radius: 6px;
@@ -36,34 +41,57 @@ input {
 	border-radius: 8px;
 }
 
+thead {
+	text-align: center;
+	background: linear-gradient(45deg, rgba(96, 44, 130, 0), rgba(73, 160, 157, 0.75));
+}
+
+th {
+	padding: 10px;
+}
+
+td.table-data {
+	padding-left: 10px;
+	/* padding-bottom: 12px;
+	padding-top: 12px; */
+	max-width: 275px;
+	vertical-align: center;
+}
+
+tr:hover {
+	background-color: rgba(255, 255, 255, 0.1);
+}
+
 .delete-field {
 	border-radius: 200px;
 	transform: scale(0.75);
 }
 
+/* Create Playlist Page */
+.jumbotron.create-playlist-column {
+	position: relative;
+	left: 30%;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+/* Playlist Table */
+div.playlist-column {
+	position: absolute;
+	top: 10%;
+}
+
+.playlist-table-div {
+	height: 75vh;
+	/* overflow: hidden; */
+	overflow-y: scroll;
+}
+
 .tracks-table {
-	color: rgb(211, 211, 211);
-	border: 2px solid white;
 	float: none;
-	background-color: #1f1f1fab;
-}
-
-th,
-td {
-	border: 1px solid white;
-}
-
-th {
-	text-align: center;
-}
-
-td.table-data {
-	padding: 10px;
-	max-width: 275px;
-}
-
-th.thumbnail-header {
-	border: 0px;
+	background-color: #ffffff2c;
+	box-shadow: 10px 10px 8px 10px #888888;
+	color: white;
 }
 
 /* Set homepage get started button to black font */
@@ -80,13 +108,6 @@ th.thumbnail-header {
 	position: relative;
 	height: 100vh;
 	color: white;
-}
-
-.jumbotron.create-playlist-column {
-	position: relative;
-	left: 30%;
-	margin-left: auto;
-	margin-right: auto;
 }
 
 /* Vertically align jumbotron */

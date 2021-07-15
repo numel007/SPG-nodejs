@@ -155,27 +155,30 @@ $(document).ready(function () {
 			success: function (data) {
 				// window.location.href = "/playlist_details";
 				// HIDE LOADING GIF
-				$(".playlist-column").append(
-					$(
-						"<h1 class='text-center'>Your new playlist</h1><table class='tracks-table'><tr><th class='thumbnail-header'></th><th>Name</th><th>Artist</th><th>Album</th></tr>"
-					)
-				);
+				let tableSetup =
+					"<h1 class='text-center'>Your new playlist</h1>" +
+					"<div class='playlist-table-div'>" +
+					"<table class='tracks-table'>" +
+					"<thead>" +
+					"<th></th>" +
+					"<th>Name</th>" +
+					"<th>Artist</th>" +
+					"<th>Album</th>" +
+					"</thead>" +
+					"<tbody class='playlist-table-body'></tbody>" +
+					"</table>" +
+					"</div>";
+				$(".playlist-column").append($(tableSetup));
 
 				$.each(data, function (index, value) {
-					$(".tracks-table").append(
+					$(".playlist-table-body").append(
 						$("<tr></tr>").html(
-							"<td><img src=" +
-								value.track.album.images[2].url +
-								"></img></td>" +
-								"<td class='table-data'>" +
-								value.track.name +
-								"</td>" +
-								"<td class='table-data'>" +
-								value.track.artists[0].name +
-								"</td>" +
-								"<td class='table-data'>" +
-								value.track.album.name +
-								"</td>"
+							`<td>
+								<img src=${value.track.album.images[2].url}></img>
+							</td>` +
+								`<td class='table-data'>${value.track.name}</td>` +
+								`<td class='table-data'>${value.track.artists[0].name}</td>` +
+								`<td class='table-data'>${value.track.album.name}</td>`
 						)
 					);
 				});
