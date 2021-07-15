@@ -21,11 +21,18 @@ body {
 img.github-icon {
 	height: 23px;
 	width: auto;
-	padding-left: 0.5rem;
 }
 
 .navbar {
 	padding: 16px 20px 16px 20px;
+}
+
+.navbar-nav {
+	flex-direction: row;
+}
+
+.navbar-nav > li {
+	margin-left: 10px;
 }
 
 .navbar a {
