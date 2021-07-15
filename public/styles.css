@@ -4,6 +4,7 @@ body {
 	background-color: rgb(0, 0, 0);
 	background: linear-gradient(45deg, #49a09d, #5f2c82);
 	background-attachment: fixed;
+	font-family: "Sriracha", cursive;
 }
 
 .spotify-bg {
@@ -15,6 +16,16 @@ body {
 	left: 50%;
 	transform: translate(-50%, -50%);
 	z-index: -1;
+}
+
+img.github-icon {
+	height: 23px;
+	width: auto;
+	padding-left: 0.5rem;
+}
+
+.navbar {
+	padding: 16px 20px 16px 20px;
 }
 
 .navbar a {
@@ -39,13 +50,15 @@ input {
 .btn-secondary {
 	margin: 3px;
 	border-radius: 8px;
+	background-color: rgb(109, 109, 109);
+	box-shadow: 2px 2px 2px 2px #00000050;
 }
 
 thead {
 	position: sticky;
 	top: 0;
 	text-align: center;
-	background: linear-gradient(45deg, rgba(96, 44, 130, 1), rgba(73, 160, 157, 1));
+	background: linear-gradient(45deg, rgba(73, 160, 157, 1), rgba(96, 44, 130, 1));
 }
 
 th {
@@ -66,6 +79,7 @@ td.table-data {
 .delete-field {
 	border-radius: 200px;
 	transform: scale(0.75);
+	background-color: rgb(221, 0, 0);
 }
 
 /* Create Playlist Page */
@@ -87,9 +101,6 @@ div.playlist-column {
 	box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
 	overflow: hidden;
 	overflow-y: scroll;
-	scrollbar-color: yellow blue;
-	scrollbar-color: #87ceeb #ff5621;
-	scrollbar-color: auto;
 }
 
 .tracks-table {
@@ -102,13 +113,46 @@ tbody.playlist-table-body tr:hover {
 	background-color: rgba(255, 255, 255, 0.1);
 }
 
-/* Set homepage get started button to black font */
+/* Homepage Header */
+h1.homepage-header {
+	font-size: 5em;
+}
+
+/* Button: Homepage Get Started */
 .wrapper > .jumbotron > .btn-success {
 	background-color: #1db954;
 	color: white;
 	font-size: 1.5em;
 	margin: 3px;
 	border-radius: 8px;
+}
+
+/* Button: Homepage -> create_playlist  */
+a.btn.redirect-create-playlist {
+	background-color: #1baf4f;
+	color: white;
+	font-size: 1.75em;
+	margin: 3px;
+	border-radius: 8px;
+	box-shadow: 2px 2px 3px 3px rgba(73, 73, 73, 0.5);
+}
+
+a.btn.redirect-create-playlist:hover {
+	background-color: #1aa54b;
+}
+
+/* Create playlist submit button */
+.create-playlist-submit {
+	background-color: #1db954;
+	color: white;
+	font-size: 1.25em;
+	margin: 3px;
+	border-radius: 8px;
+	box-shadow: 1px 1px 1px 2px rgba(78, 78, 78, 0.5);
+}
+
+.create-playlist-submit:hover {
+	background-color: #1aa54b;
 }
 
 /* Vertically align jumbotron */
@@ -127,7 +171,7 @@ tbody.playlist-table-body tr:hover {
 /* Set autocomplete dropdown menu properties */
 .ui-menu {
 	list-style: none;
-	background-color: rgba(105, 105, 105, 0.85);
+	background-color: #c9c9c9de;
 	position: absolute;
 	box-shadow: 0 2px 3px 0px;
 	border-radius: 3px;
@@ -141,13 +185,15 @@ tbody.playlist-table-body tr:hover {
 
 .ui-menu .ui-menu-item {
 	margin: none;
-	padding-left: 0px;
-	padding-right: 0px;
+}
+
+.ui-menu-item img {
+	padding-right: 5px;
 }
 
 /* Set color when hovering over items in autocomplete dropdown menu */
 .ui-menu .ui-menu-item:hover {
-	background-color: gray;
+	background-color: rgba(255, 255, 255, 0.459);
 }
 
 /* Set autocomplete dropdown thumbnail size */
