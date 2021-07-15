@@ -9,9 +9,9 @@ $(document).ready(function () {
 
 		if (fieldCounter < 5) {
 			$(".form").append(
-				`<div>Artist ${
+				`<div><input type="text" id="artist-search-${fieldCounter}" class="artist-search" placeholder="Artist ${
 					fieldCounter + 1
-				} <input type="text" id="artist-search-${fieldCounter}" class="artist-search" placeholder=""><a href="#" class="delete-field btn btn-danger btn-sm">Remove</a></div>`
+				}"><a href="#" class="delete-field btn btn-danger btn-sm">X</a></div>`
 			);
 			fieldCounter++;
 		}

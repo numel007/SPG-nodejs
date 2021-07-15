@@ -135,10 +135,57 @@ const getCurrentPlaylistDetails = (accessToken, refreshToken) => {
 	})
 }
 
+/**
+ * Creates a playlist on the user's Spotify account and then stores relevant information into database for future use.
+ * @param {String} accessToken User's access token
+ * @param {String} refreshToken User's refresh token
+ * @param {String} userId Current logged in user's spotify ID
+ * @param {String} playlistName Name entered in playlist name field on webpage
+ * @param {String} playlistDescription Description entered in playlist description field on webpage
+ * @returns ID of the newly created playlist
+ */
+const createPlaylist = (accessToken, refreshToken, userId, playlistName, playlistDescription) => {
+	return new Promise((resolve, reject) => {
+		let playlistOptions = {
+			url: `https://api.spotify.com/v1/users/${userId}/playlists`,
+			headers: {
+				Authorization: "Bearer " + accessToken,
+				"Content-Type": "application/json",
+			},
+			body: {
+				name: playlistName,
+				description: playlistDescription,
+				public: false,
+			},
+			json: true,
+		};
+	
+		request.post(playlistOptions, (err, response, body) => {
+			if (response.statusCode === 201) {
+				let newPlaylist = new Playlist({
+					playlistId: body.id,
+					userId: userId,
+					accessToken: accessToken,
+					refreshToken: refreshToken,
+					name: body.name,
+					description: body.description,
+					collaborative: body.collaborative,
+				});
+				
+				newPlaylist.save()
+				resolve(body.id)
+			} else {
+				reject(`createPlaylist helper failed with response: ${response.statusCode}`)
+			}
+		})
+	})
+}
+
 module.exports = {
 	getRecommendations: getRecommendations,
 	getPlaylistURIs: getPlaylistURIs,
 	clearPlaylist: clearPlaylist,
 	addSongToPlaylist: addSongToPlaylist,
 	getCurrentPlaylistDetails: getCurrentPlaylistDetails,
+	createPlaylist: createPlaylist,
 };
