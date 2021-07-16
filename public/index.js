@@ -9,7 +9,7 @@ $(document).ready(function () {
 
 		if (fieldCounter < 5) {
 			$(".form").append(
-				`<div><input type="text" id="artist-search-${fieldCounter}" class="artist-search" placeholder="Artist ${
+				`<div><input type="text" id="artist-search-${fieldCounter}" class="artist-search focusedInput" placeholder="Artist ${
 					fieldCounter + 1
 				}"><a href="#" class="delete-field btn btn-danger btn-sm">X</a></div>`
 			);
@@ -144,8 +144,10 @@ $(document).ready(function () {
 			})
 			.get();
 
-		if (artistNames[0] == '') {
-			$(".jumbotron").append("<p class='error-message'><span style='color: #ff0000'>You must enter at least one artist name!</span></p>");
+		if (artistNames[0] == "") {
+			$(".jumbotron").append(
+				"<p class='error-message'><span style='color: #ff0000'>You must enter at least one artist name!</span></p>"
+			);
 			return;
 		}
 
@@ -165,37 +167,41 @@ $(document).ready(function () {
 				$(".error-message").remove();
 
 				if (data.error) {
-					$(".jumbotron").append("<p class='error-message'><span style='color: #ff0000'>Error generating playlist. Please try again!</span></p>");
-					$(".jumbotron").append(`<p class='error-message'><span style='color: #ff0000'>Error message: ${data.error}</span></p>`);
+					$(".jumbotron").append(
+						"<p class='error-message'><span style='color: #ff0000'>Error generating playlist. Please try again!</span></p>"
+					);
+					$(".jumbotron").append(
+						`<p class='error-message'><span style='color: #ff0000'>Error message: ${data.error}</span></p>`
+					);
 				} else {
 					// Build new header + table
 					let tableSetup =
-					"<h1 class='playlist-header text-center'>Your new playlist</h1>" +
-					"<div class='playlist-table-div'>" +
-					"<table class='tracks-table'>" +
-					"<thead>" +
-					"<th></th>" +
-					"<th>Name</th>" +
-					"<th>Artist</th>" +
-					"<th>Album</th>" +
-					"</thead>" +
-					"<tbody class='playlist-table-body'></tbody>" +
-					"</table>" +
-					"</div>";
-				$(".playlist-column").append(tableSetup);
+						"<h1 class='playlist-header text-center'>Your new playlist</h1>" +
+						"<div class='playlist-table-div'>" +
+						"<table class='tracks-table'>" +
+						"<thead>" +
+						"<th></th>" +
+						"<th>Name</th>" +
+						"<th>Artist</th>" +
+						"<th>Album</th>" +
+						"</thead>" +
+						"<tbody class='playlist-table-body'></tbody>" +
+						"</table>" +
+						"</div>";
+					$(".playlist-column").append(tableSetup);
 
-				$.each(data, function (index, value) {
-					$(".playlist-table-body").append(
-						$("<tr></tr>").html(
-							`<td>
+					$.each(data, function (index, value) {
+						$(".playlist-table-body").append(
+							$("<tr></tr>").html(
+								`<td>
 								<img src=${value.track.album.images[2].url}></img>
 							</td>` +
-								`<td class='table-data'>${value.track.name}</td>` +
-								`<td class='table-data'>${value.track.artists[0].name}</td>` +
-								`<td class='table-data'>${value.track.album.name}</td>`
-						)
-					);
-				});
+									`<td class='table-data'>${value.track.name}</td>` +
+									`<td class='table-data'>${value.track.artists[0].name}</td>` +
+									`<td class='table-data'>${value.track.album.name}</td>`
+							)
+						);
+					});
 				}
 			},
 		});
