@@ -2,7 +2,7 @@
 
 Spotify Playlist Generator (SPG) creates Spotify playlists from user input seed artists or genre.
 
-[Check out Spotify Playlist Generator here.](http://spg.caprover.benchan.tech/)
+[Check out Spotify Playlist Generator here.](http://spg.benchan.tech/)
 
 ## Table of Contents
 
