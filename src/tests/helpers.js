@@ -59,10 +59,31 @@ async function getUserId() {
     })
 }
 
+async function getPlaylistDetails(accessToken, playlistId) {
+    return new Promise( (resolve, reject) => {
+        let playlistOptions = {
+            url: `https://api.spotify.com/v1/playlists/${playlistId}/tracks`,
+            headers: {
+                Authorization: "Bearer " + accessToken,
+                "Content-Type": "application/json",
+            },
+            json: true,
+        }
+
+        request.get(playlistOptions, (error, response, body) => {
+            if (response.statusCode === 200) {
+                resolve(body.items);
+            } else {
+                reject(`getCurrentPlaylistDetails helper failed with response: ${response.statusCode}`)
+            }
+        })
+    })
+}
+
 describe('Test helper functions', () => {
     it("should create a new playlist on the user's account", async () => {
         const userId = await getUserId();
-        const newPlaylist = await helpers.createPlaylist(authToken, 'Example refresh token', userId, 'Mocha/Chai testing playlist', 'New test playlist description')
+        const newPlaylist = await helpers.createPlaylist(authToken, 'Example refresh token', userId, 'Mocha/Chai testing playlist', 'New test playlist description');
         expect(newPlaylist).to.be.a('string');
     });
 
@@ -73,12 +94,49 @@ describe('Test helper functions', () => {
         expect(artistIds).to.be.a('string');
     });
 
-    it("should ??", async () => {
+    it("should generate an array of songs and song ids based on the three seed artists", async () => {
         const token = await getAuthToken();
 
         // Pass in a test string consisting of the Ids of 3 different artists (Alan Walker, Dreamcatcher, Two Steps From Hell)
-        const recommendations = ('7vk5e3vY1uw9plTHJAMwjN,5V1qsQHdXNm4ZEZHWvFnqQ,2qvP9yerCZCS0U1gZU8wYp', token);
-        expect(recommendations).to.be.a('string');
-    })
+        const recommendations = await helpers.getRecommendations('7vk5e3vY1uw9plTHJAMwjN,5V1qsQHdXNm4ZEZHWvFnqQ,2qvP9yerCZCS0U1gZU8wYp', token);
+        expect(recommendations).to.be.a('array');
+    });
 
+    it("should clear the specified playlist", async () => {
+        const userId = await getUserId();
+        const playlistId = await helpers.createPlaylist(authToken, 'Example refresh token', userId, 'Mocha/Chai testing playlist', 'New test playlist description');
+        const clearPlaylist = await helpers.clearPlaylist(playlistId, authToken);
+        expect(clearPlaylist.snapshot_id).to.be.a('string');
+    });
+
+    it("should add recommended Ids to the playlist", async () => {
+        const userId = await getUserId();
+
+        // Generate new playlist and get its Id
+        const playlistId = await helpers.createPlaylist(authToken, 'Example refresh token', userId, 'Mocha/Chai testing playlist', 'New test playlist description');
+
+        // Pass in a test string consisting of the Ids of 3 different artists (Alan Walker, Dreamcatcher, Two Steps From Hell)
+        const recommendations = await helpers.getRecommendations('7vk5e3vY1uw9plTHJAMwjN,5V1qsQHdXNm4ZEZHWvFnqQ,2qvP9yerCZCS0U1gZU8wYp', authToken);
+
+        // Add all recommended Ids to the new playlist
+        const populatedPlaylist = await helpers.addSongToPlaylist(playlistId, authToken, recommendations[0]);
+        expect(populatedPlaylist.snapshot_id).to.be.a('string');
+    });
+
+    it("should return playlist details", async () => {
+        const userId = await getUserId();
+
+        // Generate new playlist and get its Id
+        const playlistId = await helpers.createPlaylist(authToken, 'Example refresh token', userId, 'Mocha/Chai testing playlist', 'New test playlist description');
+
+        // Pass in a test string consisting of the Ids of 3 different artists (Alan Walker, Dreamcatcher, Two Steps From Hell)
+        const recommendations = await helpers.getRecommendations('7vk5e3vY1uw9plTHJAMwjN,5V1qsQHdXNm4ZEZHWvFnqQ,2qvP9yerCZCS0U1gZU8wYp', authToken);
+
+        // Add all recommended Ids to the new playlist
+        const populatedPlaylist = await helpers.addSongToPlaylist(playlistId, authToken, recommendations[0]);
+
+        // Retrieve details of the newly created playlist
+        const playlistDetails = await getPlaylistDetails(authToken, playlistId)
+        expect(playlistDetails).to.be.a('array');
+    })
 })
