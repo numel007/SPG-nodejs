@@ -23,7 +23,7 @@ router.post("/create_playlist", middleware.verifyToken, async (req, res) => {
 		res.redirect("/login");
 	} else {
 		try {
-			const playlistId = await helpers.createPlaylist(req.accessToken, req.cookies.refreshToken, req.user_id, req.body.playlistName, req.body.Description)
+			const playlistId = await helpers.createPlaylist(req.accessToken, req.cookies.refreshToken, req.user_id, req.body.playlistName, req.body.playlistDescription)
 
 			// Parse seed artists
 			const artistIds = await helpers.getArtistId(req.accessToken, req.body.artistNames);
