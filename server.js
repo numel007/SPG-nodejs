@@ -34,5 +34,5 @@ app.use(require("./src/controllers/routes"));
 app.listen(port, () => {
 	console.log(`SPG listening on ${port}`);
 });
- 
+
 module.exports = app;
