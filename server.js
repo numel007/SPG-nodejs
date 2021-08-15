@@ -21,7 +21,7 @@ app.use(express.json());
 app.use(cookieParser());
 
 // Set up express static folder
-afadfs.use(express.static("public"));
+app.use(express.static("public"));
 
 // MongoDB Setup
 require("./src/config/db-setup");
